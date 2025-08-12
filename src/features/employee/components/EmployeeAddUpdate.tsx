@@ -6,7 +6,6 @@ import { addEmployee, updateEmployee } from "../employeeThunks";
 import { z } from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { employeeSchema } from "../validation/employeeSchema";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { clearValidationErrors, setSelectedEmployee } from "../employeeSlice"; 
 import InputText from "../../../components/InputText";
@@ -18,17 +17,38 @@ import { toast } from "react-toastify";
 import { Employee } from "../../../types/employee";
 import { updateEmployeesState } from "../employeeSearchSlice";
 import ToastErrors from "../../../components/ErrorToasts";
-  
-type FormData = z.infer<typeof employeeSchema>;
+import { surnameSchema } from "../validation/surname.schema";
+import { firstNameSchema } from "../validation/firstName.schema";
+import { emailSchema } from "../validation/email.schema";
+import { phoneNumberSchema } from "../validation/phoneNumber.schema";
+import { departmentIdSchema } from "../validation/departmentId.schema";
+import { dateOfBirthSchema } from "../validation/dateOfBirth.schema";
+import { hireDateSchema } from "../validation/hireDate.schema";
+
+const employeeInputSchema = z.object({
+  surname: surnameSchema,
+  firstName: firstNameSchema,
+  dateOfBirth: z.string().optional().nullable(),
+  hireDate: z.string().optional().nullable(),
+  email: emailSchema.optional(),
+  phoneNumber: phoneNumberSchema.optional(),
+  departmentId: departmentIdSchema.optional(),
+});
+
+const employeeSchema = employeeInputSchema.extend({
+  dateOfBirth: dateOfBirthSchema.optional().nullable(),
+  hireDate: hireDateSchema.optional().nullable(),
+});
+ 
+type EmployeeFormInput = z.infer<typeof employeeInputSchema>;   
+type EmployeeFormData = z.infer<typeof employeeSchema>; 
 
 interface IProps { 
   setShowEmployeePopUpForm: React.Dispatch<React.SetStateAction<boolean>>; 
 };
 
 const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
-
   const dispatch = useAppDispatch();
-
   const { loading, validationErrors } = useSelector((state: RootState) => state.employee);
   const selectedEmployee = useSelector((state: RootState) => state.employee.selectedEmployee);
  
@@ -38,20 +58,20 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(employeeSchema),
+  } = useForm<EmployeeFormInput>({
+    resolver: zodResolver(employeeInputSchema), 
   });
 
-  function populateEmployee(data: FormData, id: number) : Employee { 
+  function populateEmployee(data: EmployeeFormData, id: number) : Employee { 
     return { 
       id: id,
       surname: data.surname.trim(),
       firstName: data.firstName.trim(), 
       dateOfBirth: data.dateOfBirth ?? null, 
       hireDate: data.hireDate ?? null,
-      departmentId: data.departmentId ? data.departmentId : null,
-      email: data.email ? data.email : null,
-      phoneNumber: data.phoneNumber ? data.phoneNumber : null,
+      departmentId: data.departmentId ?? null,
+      email: data.email ?? null,
+      phoneNumber: data.phoneNumber ?? null,
       photo: "",
       department: null
     }  
@@ -63,18 +83,19 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
     setShowEmployeePopUpForm(false);
   }
 
-  const onSubmit = async (data: FormData) => {    
+  const onSubmit = async (data: EmployeeFormInput) => {
+    try { 
+      const validatedData: EmployeeFormData = employeeSchema.parse(data);
 
-    try {   
-
-      var resultAction = null;
       dispatch(clearValidationErrors());
       toast.dismiss(); 
       
-      if (selectedEmployee != null)
-        resultAction = await dispatch(updateEmployee(populateEmployee(data, selectedEmployee?.id )));      
-      else     
-        resultAction = await dispatch(addEmployee(populateEmployee(data, 0)));       
+      let resultAction = null;
+      if (selectedEmployee != null) {
+        resultAction = await dispatch(updateEmployee(populateEmployee(validatedData, selectedEmployee.id)));      
+      } else {    
+        resultAction = await dispatch(addEmployee(populateEmployee(validatedData, 0)));       
+      }
       
       unwrapResult(resultAction);
       setShowEmployeePopUpForm(false);
@@ -83,31 +104,21 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
         dispatch(updateEmployeesState());
 
       reset();      
+    } catch (error) {
+      console.error('Error submitting employee:', error); 
     }
-    catch(error)
-    {
-      console.log('Error submitting employee:', error);
-    }    
   };
  
   useEffect(() => {
-  
-    function setFormData(selectedEmployee: Employee)
-    {
+    if(selectedEmployee != null) {
       setValue('surname', selectedEmployee.surname);
       setValue('firstName', selectedEmployee.firstName);
-      setValue('phoneNumber', selectedEmployee.phoneNumber);
-      setValue('email', selectedEmployee.email);
-      setValue('departmentId', selectedEmployee.departmentId);
-      setValue("dateOfBirth", selectedEmployee.dateOfBirth ?? null);
-      setValue("hireDate", selectedEmployee.hireDate ?? null); 
-    }
-
-    if(selectedEmployee != null) {
-      setFormData(selectedEmployee); 
-    } 
-    else 
-    { 
+      setValue('phoneNumber', selectedEmployee.phoneNumber ?? "");
+      setValue('email', selectedEmployee.email ?? "");
+      setValue('departmentId', selectedEmployee.departmentId ?? "");
+      setValue('dateOfBirth', selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toISOString().substring(0, 10) : null);
+      setValue('hireDate', selectedEmployee.hireDate ? new Date(selectedEmployee.hireDate).toISOString().substring(0, 10) : null);
+    } else { 
       reset(); 
       dispatch(clearValidationErrors());
     }
@@ -128,10 +139,10 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
           <InputDate name="dateOfBirth"  control={control}  label="Date of birth"  error={errors.dateOfBirth}></InputDate>
           <InputEmail name="email"  control={control}  label="Email"  error={errors.email}></InputEmail>
           <InputText name="phoneNumber"  control={control}  label="Phone Number"  error={errors.phoneNumber}></InputText>
-          <InputDate name="hireDate"  control={control}  label="Hire date"  error={errors.email}></InputDate> 
+          <InputDate name="hireDate"  control={control}  label="Hire date"  error={errors.hireDate}></InputDate> 
           <InputSelect name="departmentId"  control={control}  label="Department"  error={errors.departmentId} items={departments} ></InputSelect>
           <div className={styles["button-row"]}>
-            <button onClick={onClose}>Close</button>
+            <button type="button" onClick={onClose}>Close</button>
             <button type="submit">{ selectedEmployee == null ? "Add Employee" : "Update Employee"  }</button>       
           </div>
         </div>  

@@ -4,18 +4,18 @@ export type Employee =
   id: number;  
   surname: string; 
   firstName: string;
-  dateOfBirth: string | null;  
+  dateOfBirth: Date | null;  
   email: string | null; 
-  hireDate: string | null; 
+  hireDate: Date | null; 
   phoneNumber: string | null;
   photo: string;
-  departmentId: number | null; 
+  departmentId: string | null; 
   department: Department | null; 
 }
 
 export type Department = 
 {
-  id: number;
+  id: string;
   name: string; 
 }
 

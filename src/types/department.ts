@@ -1,10 +1,10 @@
 export type Department = 
 {
-  id: number;
+  id: string;
   name: string; 
 }
 
 export function isDepartment(obj: any): obj is Department {
-  return obj && typeof obj.id === "number" 
+  return obj && typeof obj.id === "string" 
                     && typeof obj.name === "string";
 }
