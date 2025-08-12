@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { logout, refreshToken } from '../features/authentication/authenticationThunk'; //
+import { logout, refreshToken } from '../features/authentication/authenticationThunk';
 
 const axiosInstance = axios.create({
   baseURL: window.env?.REACT_APP_API_URL,

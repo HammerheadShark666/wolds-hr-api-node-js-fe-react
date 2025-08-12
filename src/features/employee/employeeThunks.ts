@@ -34,7 +34,7 @@ export const addEmployee = createAsyncThunk('employee/addEmployee',
   
     try     
     { 
-      const response = await axiosInstance.post( '/employees/add', employee);
+      const response = await axiosInstance.post( '/employees', employee);
       dispatch(addEmployeeToEmployees(response.data));
       return response.data; 
     } 
@@ -50,7 +50,7 @@ export const updateEmployee = createAsyncThunk('employee/updateEmployee',
   
     try 
     {      
-      const response = await axiosInstance.put( '/employees/update', employee);
+      const response = await axiosInstance.put( '/employees/' + employee.id, employee);
       dispatch(updateEmployeeInEmployees(response.data));
       return response.data; 
     } 
@@ -82,9 +82,9 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
     try 
     {      
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('photoFile', file);
 
-      const response = await axiosInstance.post(`/employees/upload-photo/${id}`, formData); 
+      const response = await axiosInstance.post(`/employees/photo/upload/${id}`, formData); 
 
       dispatch(updateEmployeePhotoInEmployees(response.data));
       return response.data; 

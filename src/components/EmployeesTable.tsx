@@ -1,4 +1,4 @@
-//A html table that displays a list of employees with options to edit or delete each employee.
+// An html table that displays a list of employees with options to edit or delete each employee.
 // It also includes a popup form for adding or updating employee details.
 // The table is styled with CSS modules and uses React hooks for state management and side effects.
 // The component is used in multiple places in the application, allowing for a consistent employee management interface.
@@ -82,8 +82,9 @@ const EmployeesTable = ({ rows, setShowEmployeePopUpForm, showEmployeePopUpForm 
                 <td>{employee.id}</td>
                 <td>{employee.firstName} {employee.surname}</td> 
                 <td>{employee.department ? employee.department.name : ""}</td>
-                <td><div><div className={styles["employee-phone-number"]}>{employee.phoneNumber}</div><div className={styles["employee-email"]}><a href={`mailto:${employee.email}`}>{employee.email}</a></div></div></td>
-                <td>{employee.hireDate ? employee.hireDate : ""}</td> 
+                <td>{employee.hireDate && employee.hireDate != null
+                      ? new Date(employee.hireDate).toLocaleDateString()
+                      : ""}</td> 
                 <td className={`row ${openMenu === employee.id ? 'active' : ''}`}> 
                   <div className={styles["employee-list-actions-menu-container"]}>  
                     <button onClick={() => setOpenMenu(openMenu === employee.id ? null : employee.id)} className={styles["employee-list-actions-menu-button"]}>
