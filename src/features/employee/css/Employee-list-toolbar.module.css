@@ -1,0 +1,21 @@
+.search-bar {
+  gap: 0.5rem;
+  display: flex;
+  width: 50%;
+} 
+
+.search-bar input { 
+  width: 60%;
+} 
+
+.search-bar button { 
+  background-color: rgba(167, 164, 243, 0.4);
+  border: 1px solid rgba(2, 2, 22, 0.4);
+  padding-top: 5px;
+  margin-right: 0.5rem;
+}
+
+.search-bar button:hover {
+  background-color: rgba(207, 179, 199, 0.97);  
+  cursor: pointer;
+}
