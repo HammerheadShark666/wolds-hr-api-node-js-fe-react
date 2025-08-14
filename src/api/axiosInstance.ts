@@ -22,33 +22,33 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error) 
 ); 
   
-axiosInstance.interceptors.response.use(
-  response => response,
-  async error => {
-    const originalRequest = error.config;
+// axiosInstance.interceptors.response.use(
+//   response => response,
+//   async error => {
+//     const originalRequest = error.config;
 
-    const isRefreshRequest = originalRequest?.url?.includes('/refresh-token');
-    const isUnauthorized = error.response?.status === 401 || error.response?.status === 403;
+//     const isRefreshRequest = originalRequest?.url?.includes('/refresh-token');
+//     const isUnauthorized = error.response?.status === 401 || error.response?.status === 403;
 
-    if (isUnauthorized && !originalRequest._retry && !isRefreshRequest) {
-      originalRequest._retry = true;
+//     if (isUnauthorized && !originalRequest._retry && !isRefreshRequest) {
+//       originalRequest._retry = true;
 
-      try {
-        const { store } = await import('../app/store');
-        await store.dispatch(refreshToken()).unwrap();
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        logoutOfApplication();
-        return Promise.reject(refreshError);
-      }
-    }
+//       try {
+//         const { store } = await import('../app/store');
+//         await store.dispatch(refreshToken()).unwrap();
+//         return axiosInstance(originalRequest);
+//       } catch (refreshError) {
+//         logoutOfApplication();
+//         return Promise.reject(refreshError);
+//       }
+//     }
 
-    if (isRefreshRequest) {
-      logoutOfApplication();
-    }
+//     if (isRefreshRequest) {
+//       logoutOfApplication();
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axiosInstance;
