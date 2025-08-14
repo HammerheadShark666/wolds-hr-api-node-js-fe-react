@@ -1,16 +1,16 @@
 import axios from 'axios';
-import { logout, refreshToken } from '../features/authentication/authenticationThunk';
+//import { logout, refreshToken } from '../features/authentication/authenticationThunk';
 
 const axiosInstance = axios.create({
   baseURL: window.env?.REACT_APP_API_URL,
   withCredentials: true,
 });
 
-async function logoutOfApplication() {
-  const { store } = await import('../app/store');
-  store.dispatch(logout());
-  window.location.href = '/login';
-}
+// async function logoutOfApplication() {
+//   const { store } = await import('../app/store');
+//   store.dispatch(logout());
+//   window.location.href = '/login';
+// }
   
 axiosInstance.interceptors.request.use(
   (config) => {  
