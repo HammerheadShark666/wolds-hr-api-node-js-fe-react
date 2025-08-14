@@ -4,7 +4,7 @@
     "rewrite": "/index.html"
   },
   "backend": {
-    "/api/*": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net"
+    "/api/*": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net/api"
   },
   "globalHeaders": {
     "Access-Control-Allow-Origin": "https://calm-wave-04d3d5f03.1.azurestaticapps.net",
