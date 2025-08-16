@@ -5,7 +5,7 @@
   },
   "backend": {
     "/api/*": {
-      "backendUri": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net/$1"
+      "backendUri": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net"
     }
   }
 }
