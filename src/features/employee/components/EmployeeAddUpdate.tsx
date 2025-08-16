@@ -24,6 +24,7 @@ import { phoneNumberSchema } from "../validation/phoneNumber.schema";
 import { departmentIdSchema } from "../validation/departmentId.schema";
 import { dateOfBirthSchema } from "../validation/dateOfBirth.schema";
 import { hireDateSchema } from "../validation/hireDate.schema";
+import { clearValidationError } from "../../employee-import/employeeImportSlice";
 
 const employeeInputSchema = z.object({
   surname: surnameSchema,
@@ -104,8 +105,8 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
         dispatch(updateEmployeesState());
 
       reset();      
-    } catch (error) {
-      console.error('Error submitting employee:', error); 
+    } catch (error : any) {
+      <ToastErrors error={error} onClear={() => dispatch(clearValidationError())} /> 
     }
   };
  
