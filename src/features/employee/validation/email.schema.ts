@@ -1,8 +1,11 @@
-import z from "zod";
+import { emptyToNull } from "./emptyToNull.schema";
 
-export const emailSchema = z.string()
-                            .trim() 
-                            .max(250, 'Email must be at most 250 characters long')
-                            .email('Invalid email format')
-                            .nullable()
-                            .optional();
+export const emailSchema = emptyToNull
+  .refine((val) => {
+    if (val == null) return true; // allow empty
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  }, "Invalid email format")
+  .refine((val) => {
+    if (val == null) return true;
+    return val.length <= 250;
+  }, "Email must be at most 250 characters long");

@@ -1,9 +1,6 @@
-import { z } from "zod";
+import { emptyToNull } from "./emptyToNull.schema";
 
-export const objectIdSchema = z
-  .union([z.string(), z.null(), z.undefined()])
-  .refine((val) => {
-    if (val == null) return true; 
-    if (typeof val !== "string") return false; 
-    return /^[a-fA-F0-9]{24}$/.test(val);
-  }, { message: "Invalid department Id" });
+export const objectIdSchema = emptyToNull.refine((val) => {
+  if (val == null) return true; // allow empty
+  return /^[a-fA-F0-9]{24}$/.test(val);
+}, "Invalid department Id");

@@ -82,6 +82,7 @@ const EmployeesTable = ({ rows, setShowEmployeePopUpForm, showEmployeePopUpForm 
                 <td>{employee.id}</td>
                 <td>{employee.firstName} {employee.surname}</td> 
                 <td>{employee.department ? employee.department.name : ""}</td>
+                <td><div><div className={styles["employee-phone-number"]}>{employee.phoneNumber}</div><div className={styles["employee-email"]}><a href={`mailto:${employee.email}`}>{employee.email}</a></div></div></td>
                 <td>{employee.hireDate && employee.hireDate != null
                       ? new Date(employee.hireDate).toLocaleDateString()
                       : ""}</td> 
