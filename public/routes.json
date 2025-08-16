@@ -1,9 +1,9 @@
 {
-  "routes": [
-    {
-      "route": "/api/*",
-      "allowedRoles": ["anonymous"],
-      "rewrite": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net/api"
-    }
-  ]
+  "routes": [],
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "backend": {
+    "/api/*": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net"
+  }
 }
