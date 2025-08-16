@@ -1,10 +1,16 @@
 import axios from 'axios';
 import { logout, refreshToken } from '../features/authentication/authenticationThunk';
 
+// const axiosInstance = axios.create({
+//   baseURL: window.env?.REACT_APP_API_URL,
+//   withCredentials: true,
+// });
+
 const axiosInstance = axios.create({
-  baseURL: window.env?.REACT_APP_API_URL,
-  withCredentials: true,
+  baseURL: "/api/v1",
+  withCredentials: true
 });
+
 
 async function logoutOfApplication() {
   const { store } = await import('../app/store');
