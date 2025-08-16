@@ -5,7 +5,13 @@
   },
   "backend": {
     "/api/*": {
-      "backendUri": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net"
+      "backendUri": "https://prod-ap-wolds-hr-node-js-api-hwhne6f9c7fjdpht.ukwest-01.azurewebsites.net/api/$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://calm-wave-04d3d5f03.1.azurestaticapps.net",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS"
+      }
     }
   }
 }
