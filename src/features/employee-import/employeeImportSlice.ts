@@ -89,9 +89,7 @@ const employeeImportSlice = createSlice({
         state.loading = false;
         state.error = 'Failed to get imported existing employees';
       })   
-      .addDefaultCase((state) => {
-        // This is a catch-all for any actions that don't match
-        // It can be used to reset state or handle unexpected actions
+      .addDefaultCase((state) => { 
       });
   },
 });

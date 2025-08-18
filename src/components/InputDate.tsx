@@ -1,12 +1,12 @@
 'use client';
 
-import { Controller } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import styles from "./css/Input.module.css"
  
 interface IProps {  
   name: string;
   label: string;
-  control: any;
+  control: Control<any>;
   error: any;
 } 
 

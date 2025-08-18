@@ -27,20 +27,17 @@ export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse,
     { 
       return handleError(error, rejectWithValue); 
     }
-});
-   
-export const addEmployee = createAsyncThunk('employee/addEmployee',
-  async (employee: Employee, { rejectWithValue, dispatch }) => {
-  
-    try     
-    { 
-      const response = await axiosInstance.post( '/employees', employee);
+}); 
+
+export const addEmployee = createAsyncThunk<Employee, Employee, { rejectValue: any }>(
+  'employee/addEmployee',
+  async (employee, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await axiosInstance.post('/employees', employee);
       dispatch(addEmployeeToEmployees(response.data));
-      return response.data; 
-    } 
-    catch (error: any) 
-    { 
-      return handleError(error, rejectWithValue); 
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
   }
 );

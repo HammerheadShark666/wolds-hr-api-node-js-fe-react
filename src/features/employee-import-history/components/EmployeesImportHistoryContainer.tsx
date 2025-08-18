@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedExistingEmployeesHistory } from "../employeeImportHistoryThunk";
 import styles from "../css/Employee-import-history.module.css"; 
 import EmployeesImportHistoryExistingEmployeesTable from "./EmployeesImportHistoryExistingEmployeesTable"; 
+import { PAGE_SIZE } from "../../../helpers/constants";
 
 const EmployeesImportHistoryContainer = () => {
-
-  const pageSize : number = 5;
+ 
   const dispatch = useDispatch<AppDispatch>();
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
   const { importedEmployeesHistory, importedExistingEmployeesHistory, loading, error } = useSelector((state: RootState) => state.employeeImportHistory);
@@ -37,8 +37,8 @@ const EmployeesImportHistoryContainer = () => {
         dispatch(setEmployeeImportId(employeeImportHistoryId));
         dispatch(setEmployeeImportHistoryDate(employeeImportHistoryDate));
 
-        await dispatch(getImportedEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: 5 }));
-        await dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: 5 }));
+        await dispatch(getImportedEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: PAGE_SIZE }));
+        await dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: PAGE_SIZE }));
       }
 
     }, [dispatch]
@@ -47,14 +47,14 @@ const EmployeesImportHistoryContainer = () => {
   const handlePageChangeIportedEmployees = async (pageNumber: number) => {
     if(employeeImportHistoryId !== null ) { 
       dispatch(setImportedEmployeesHistoryPage(pageNumber));
-      await dispatch(getImportedEmployeesHistory({ page: pageNumber, id: employeeImportHistoryId, pageSize: pageSize })); 
+      await dispatch(getImportedEmployeesHistory({ page: pageNumber, id: employeeImportHistoryId, pageSize: PAGE_SIZE })); 
     }
   };
 
   const handlePageChangeImportedExistingEmployees = async (pageNumber: number) => {
     if(employeeImportHistoryId !== null ) { 
       dispatch(setImportedExistingEmployeesHistoryPage(pageNumber)); 
-      dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: pageSize }));
+      dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
     }
   };
 
