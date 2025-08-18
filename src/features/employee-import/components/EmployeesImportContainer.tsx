@@ -11,10 +11,10 @@ import EmployeesTable from '../../../components/EmployeesTable';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@radix-ui/react-tabs';
 import styles from "../css/Employee-import.module.css"; 
 import ToastErrors from '../../../components/ErrorToasts';
+import { PAGE_SIZE } from '../../../helpers/constants';
      
 const EmployeesImportContainer = () => {
-
-  const pageSize : number = 5;
+ 
   const dispatch = useDispatch<AppDispatch>();
   const { employeeImportId, importedEmployees, importedExistingEmployees, loading, error } = useSelector((state: RootState) => state.employeeImport);
   const [activeTab, setActiveTab] = useState("imported-employees"); 
@@ -23,14 +23,14 @@ const EmployeesImportContainer = () => {
   const handlePageChangeImportedEmployees = async (pageNumber: number) => {
     if(employeeImportId !== null ) { 
       dispatch(setImportedEmployeesPage(pageNumber)); 
-      await dispatch(getImportedEmployee({ page: pageNumber, id: employeeImportId, pageSize: pageSize })); 
+      await dispatch(getImportedEmployee({ page: pageNumber, id: employeeImportId, pageSize: PAGE_SIZE })); 
     }
   };
 
   const handlePageChangeImportedExistingEmployees = async (pageNumber: number) => {
     if(employeeImportId !== null ) { 
       dispatch(setImportedExistingEmployeesPage(pageNumber));     
-      await dispatch(getImportedExistingEmployee({ id: employeeImportId, page: pageNumber, pageSize: pageSize }));
+      await dispatch(getImportedExistingEmployee({ id: employeeImportId, page: pageNumber, pageSize: PAGE_SIZE }));
     }
   };
 

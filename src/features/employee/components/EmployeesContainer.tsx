@@ -8,10 +8,10 @@ import { clearEmployees, setPage, setSearch } from '../employeeSearchSlice';
 import { searchEmployeeRecords } from '../employeeThunks';
 import Pagination from '../../../components/EmployeePagination';
 import EmployeesTable from '../../../components/EmployeesTable';
+import { PAGE_SIZE } from '../../../helpers/constants';
 
 const EmployeesContainer = () => {
-
-  const pageSize : number = 5;
+ 
   const dispatch = useDispatch<AppDispatch>();
   const { employeesFound, loading, keyword } = useSelector((state: RootState) => state.employeeList);
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
@@ -25,7 +25,7 @@ const EmployeesContainer = () => {
 
     if(keyword !== '' || departmentId !== '0') {
       dispatch(setSearch(keyword));
-      dispatch(searchEmployeeRecords({ page: 1, keyword: keyword, departmentId: departmentId , pageSize: pageSize }));
+      dispatch(searchEmployeeRecords({ page: 1, keyword: keyword, departmentId: departmentId , pageSize: PAGE_SIZE }));
     } else {
       dispatch(clearEmployees());
     } 
@@ -33,7 +33,7 @@ const EmployeesContainer = () => {
 
   const handlePageChange = (pageNumber: number) => {
     dispatch(setPage(pageNumber)); 
-    dispatch(searchEmployeeRecords({ page: pageNumber, keyword: keyword, departmentId: departmentId, pageSize: pageSize }));  
+    dispatch(searchEmployeeRecords({ page: pageNumber, keyword: keyword, departmentId: departmentId, pageSize: PAGE_SIZE }));  
   };
 
   return (

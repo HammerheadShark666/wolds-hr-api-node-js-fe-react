@@ -8,12 +8,12 @@ import { phoneNumberSchema } from "./phoneNumber.schema";
 import { departmentIdSchema } from "./departmentId.schema";
  
 export const employeeSchema = z.object({
-  surname:  surnameSchema,
+  surname: surnameSchema,
   firstName: firstNameSchema,
   dateOfBirth: dateOfBirthSchema,
-  hireDate: hireDateSchema,
-  email: emailSchema,
   phoneNumber: phoneNumberSchema,
+  email: emailSchema,
+  hireDate: hireDateSchema,
   departmentId: departmentIdSchema
 });
 
