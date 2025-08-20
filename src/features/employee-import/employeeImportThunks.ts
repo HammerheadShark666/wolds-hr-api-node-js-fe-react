@@ -9,16 +9,12 @@ export const importEmployees = createAsyncThunk('employee/import',
     try 
     {     
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('importFile', file); 
 
-      const response = await axiosInstance.post(`/employees-import`, formData, {
-        headers: {
-          'Content-Type': undefined
-        }
-      });  
+      const response = await axiosInstance.post(`/employees/import`, formData); 
 
-      await dispatch(getImportedEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
-      await dispatch(getImportedExistingEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
+      //await dispatch(getImportedEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
+      //await dispatch(getImportedExistingEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
 
       return response.data; 
     } 

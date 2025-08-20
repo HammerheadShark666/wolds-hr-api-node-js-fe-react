@@ -1,11 +1,19 @@
+
 {
   "version": "0.2.0",
   "configurations": [
     {
       "type": "chrome",
       "request": "launch",
-      "name": "React: Launch Chrome on localhost:3000",
+      "name": "React: Launch Chrome",
       "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/src"
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "React: Attach to Chrome",
+      "port": 9222,
       "webRoot": "${workspaceFolder}/src"
     }
   ]
