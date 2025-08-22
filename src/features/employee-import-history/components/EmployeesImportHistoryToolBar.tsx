@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {  RootState } from '../../../app/store'; 
 
 type Props = {
-  onSelectChange: (employeeImportHistoryId: string | null, employeeImportHistoryDate: string) => void; 
+  onSelectChange: (employeeImportHistoryId: string, employeeImportHistoryDate: string) => void; // | null
   employeeImportHistoryId: string | null;
 }; 
 

@@ -29,7 +29,7 @@ export const getImportedEmployee = createAsyncThunk<ApiEmployeePagingResponse, {
   ('get/imported/employees', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      const response = await axiosInstance.get(`/employees-import/employees?id=${id}&page=${page}&pageSize=${pageSize}`)
+      const response = await axiosInstance.get(`/import/history/imported?id=${id}&page=${page}&pageSize=${pageSize}`)
       return response.data;
     } 
     catch (error: any) 
@@ -42,7 +42,7 @@ export const getImportedExistingEmployee = createAsyncThunk<ApiExistingEmployeeP
   ('get/imported/existing-employees', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      const response = await axiosInstance.get(`/employees-import/existing-employees?id=${id}&page=${page}&pageSize=${pageSize}`)
+      const response = await axiosInstance.get(`/import/history/existing?id=${id}&page=${page}&pageSize=${pageSize}`)
       return response.data;
     } 
     catch (error: any) 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedExistingEmployeesHistory } from "./employeeImportHistoryThunk";
-import { EmployeeImportHistory, PagedEmployees } from "../../types/employeeImported";
+import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedErrorEmployeesHistory, getImportedExistingEmployeesHistory } from "./employeeImportHistoryThunk";
+import { EmployeeImportHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/employeeImported";
  
 interface EmployeeImportHistoryState { 
   employeeImportHistory: EmployeeImportHistory[];
@@ -8,7 +8,7 @@ interface EmployeeImportHistoryState {
   employeeImportHistoryDate: string | null;  
   importedEmployeesHistory: PagedEmployees;
   importedExistingEmployeesHistory: PagedEmployees;  
-  importedEmployeesErrorHistory: string[];   
+  importedEmployeesErrorHistory: PagedImportErrorEmployees;   
   loading: boolean;
   error: string | null;
 }
@@ -27,7 +27,12 @@ const initialState: EmployeeImportHistoryState = {
     totalPages: 0,
     totalEmployees: 0,
   }, 
-  importedEmployeesErrorHistory: [], 
+  importedEmployeesErrorHistory: {
+    employees: [],
+    page: 1,
+    totalPages: 0,
+    totalEmployees: 0,
+  },  
   employeeImportHistoryId: null,
   employeeImportHistoryDate: null, 
   loading: false,
@@ -61,6 +66,12 @@ const employeeImportHistorySlice = createSlice({
         totalEmployees: 0,
       }; 
       state.importedExistingEmployeesHistory = {
+        employees: [],
+        page: 1,
+        totalPages: 0,
+        totalEmployees: 0,
+      };
+      state.importedEmployeesErrorHistory = {
         employees: [],
         page: 1,
         totalPages: 0,
@@ -101,7 +112,7 @@ const employeeImportHistorySlice = createSlice({
       state.error = null;
     })
     .addCase(getImportedExistingEmployeesHistory.fulfilled, (state, action) => {
-      state.importedExistingEmployeesHistory.employees = [...action.payload.existingEmployees];
+      state.importedExistingEmployeesHistory.employees = [...action.payload.employees];
       state.importedExistingEmployeesHistory.totalPages = action.payload.totalPages;
       state.importedExistingEmployeesHistory.totalEmployees = action.payload.totalEmployees;
       state.importedExistingEmployeesHistory.page =  action.payload.page; 
@@ -110,6 +121,17 @@ const employeeImportHistorySlice = createSlice({
     .addCase(getImportedExistingEmployeesHistory.rejected, (state, action) => {
       state.loading = false;
       state.error = 'Failed to get imported existing employees';
+    })   
+    .addCase(getImportedErrorEmployeesHistory.fulfilled, (state, action) => {
+      state.importedEmployeesErrorHistory.employees = [...action.payload.employees];
+      state.importedEmployeesErrorHistory.totalPages = action.payload.totalPages;
+      state.importedEmployeesErrorHistory.totalEmployees = action.payload.totalEmployees;
+      state.importedEmployeesErrorHistory.page =  action.payload.page; 
+      state.loading = false;
+    })
+    .addCase(getImportedErrorEmployeesHistory.rejected, (state, action) => {
+      state.loading = false;
+      state.error = 'Failed to get imported error employees';
     })   
   }
 });

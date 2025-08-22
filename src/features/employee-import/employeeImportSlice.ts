@@ -79,7 +79,7 @@ const employeeImportSlice = createSlice({
         state.error = null;
       })
       .addCase(getImportedExistingEmployee.fulfilled, (state, action) => {
-        state.importedExistingEmployees.employees = [...action.payload.existingEmployees];
+        state.importedExistingEmployees.employees = [...action.payload.employees];
         state.importedExistingEmployees.totalPages = action.payload.totalPages;
         state.importedExistingEmployees.totalEmployees = action.payload.totalEmployees;
         state.importedExistingEmployees.page =  action.payload.page;

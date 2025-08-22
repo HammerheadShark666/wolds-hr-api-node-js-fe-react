@@ -7,16 +7,18 @@ import Pagination from "../../../components/EmployeePagination";
 import EmployeesTable from "../../../components/EmployeesTable";
 import { AppDispatch, RootState } from "../../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedExistingEmployeesHistory } from "../employeeImportHistoryThunk";
+import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedErrorEmployeesHistory, getImportedExistingEmployeesHistory } from "../employeeImportHistoryThunk";
 import styles from "../css/Employee-import-history.module.css"; 
 import EmployeesImportHistoryExistingEmployeesTable from "./EmployeesImportHistoryExistingEmployeesTable"; 
 import { PAGE_SIZE } from "../../../helpers/constants";
+import EmployeesImportHistoryErrorEmployeesTable from "./EmployeesImportHistoryErrorEmployeesTable";
+import EmployeeImportErrorPagination from "../../../components/EmployeeImportErrorPagination";
 
 const EmployeesImportHistoryContainer = () => {
  
   const dispatch = useDispatch<AppDispatch>();
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
-  const { importedEmployeesHistory, importedExistingEmployeesHistory, loading, error } = useSelector((state: RootState) => state.employeeImportHistory);
+  const { importedEmployeesHistory, importedExistingEmployeesHistory, importedEmployeesErrorHistory, loading, error } = useSelector((state: RootState) => state.employeeImportHistory);
   const [activeTab, setActiveTab] = useState("imported-employees-history");
   
   const [employeeImportHistoryId, setEmployeeImportHistoryId] = useState<string | null>(null); 
@@ -27,9 +29,9 @@ const EmployeesImportHistoryContainer = () => {
   }, [dispatch]);
    
   const handleOnSelectChange = useCallback(
-    async (employeeImportHistoryId: string | null, employeeImportHistoryDate: string) => {
+    async (employeeImportHistoryId: string , employeeImportHistoryDate: string) => {  //| null
 
-      if(employeeImportHistoryId === null) {
+      if(employeeImportHistoryId === '0') {
         dispatch(clearImportedEmployeesHistory());
       }
       else {
@@ -39,10 +41,11 @@ const EmployeesImportHistoryContainer = () => {
 
         await dispatch(getImportedEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: PAGE_SIZE }));
         await dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: PAGE_SIZE }));
+        await dispatch(getImportedErrorEmployeesHistory({ id: employeeImportHistoryId, page: 1, pageSize: PAGE_SIZE }));
       }
 
     }, [dispatch]
-);
+  );
   
   const handlePageChangeIportedEmployees = async (pageNumber: number) => {
     if(employeeImportHistoryId !== null ) { 
@@ -54,7 +57,16 @@ const EmployeesImportHistoryContainer = () => {
   const handlePageChangeImportedExistingEmployees = async (pageNumber: number) => {
     if(employeeImportHistoryId !== null ) { 
       dispatch(setImportedExistingEmployeesHistoryPage(pageNumber)); 
-      dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
+      await dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
+      //dispatch(getImportedErrorEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
+    }
+  };
+
+  const handlePageChangeImportedErrorEmployees = async (pageNumber: number) => {
+    if(employeeImportHistoryId !== null ) { 
+      // dispatch(setImportedExistingEmployeesHistoryPage(pageNumber)); 
+      //dispatch(getImportedExistingEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
+      await dispatch(getImportedErrorEmployeesHistory({ id: employeeImportHistoryId, page: pageNumber, pageSize: PAGE_SIZE }));
     }
   };
 
@@ -77,9 +89,12 @@ const EmployeesImportHistoryContainer = () => {
               </TabsContent>
               <TabsContent value="existing-employees-history">
                 <EmployeesImportHistoryExistingEmployeesTable rows={importedExistingEmployeesHistory.employees} />
-                <Pagination pagedEmployees={importedExistingEmployeesHistory} onPageChange={handlePageChangeImportedExistingEmployees} title={"Imported Existing Employees"} />
+                <Pagination pagedEmployees={importedExistingEmployeesHistory} onPageChange={handlePageChangeImportedExistingEmployees} title={"Import Existing Employees"} />
               </TabsContent>
-              <TabsContent value="failed-employees-history">failed-employees</TabsContent>   
+              <TabsContent value="failed-employees-history">
+                <EmployeesImportHistoryErrorEmployeesTable rows={importedEmployeesErrorHistory.employees} />
+                <EmployeeImportErrorPagination pagedEmployees={importedEmployeesErrorHistory} onPageChange={handlePageChangeImportedErrorEmployees} title={"Import Employees that Errored"} />
+              </TabsContent>   
             </Tabs>          
          </> 
       }
