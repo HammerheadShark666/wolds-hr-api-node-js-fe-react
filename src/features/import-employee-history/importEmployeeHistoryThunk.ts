@@ -42,7 +42,7 @@ export const getImportedEmployeesExistingHistory = createAsyncThunk<ApiExistingE
     }
 });
 
-export const getImportedErrorEmployeesHistory = createAsyncThunk<ApiErrorEmployeePagingResponse, { id: string, page: number, pageSize: number }>
+export const getImportedEmployeesErrorHistory = createAsyncThunk<ApiErrorEmployeePagingResponse, { id: string, page: number, pageSize: number }>
   ('get/imported/error-employees/history', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {

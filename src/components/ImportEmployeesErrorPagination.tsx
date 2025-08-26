@@ -7,7 +7,7 @@ type Props = {
   title: string;
 };
   
-const EmployeeImportErrorPagination = ({ pagedEmployees, onPageChange, title }: Props) => {
+const ImportEmployeesErrorPagination = ({ pagedEmployees, onPageChange, title }: Props) => {
   
   return (
     <>
@@ -37,4 +37,4 @@ const EmployeeImportErrorPagination = ({ pagedEmployees, onPageChange, title }: 
   );
 };
   
-export default EmployeeImportErrorPagination;  
+export default ImportEmployeesErrorPagination;  
