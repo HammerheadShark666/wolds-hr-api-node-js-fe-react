@@ -21,10 +21,10 @@ function App() {
         <BrowserRouter>
           <ToastClearOnRouteChange />
           <Routes>          
-            <Route path="/login" element={<Login />} />
+            <Route path={NAVIGATION.LOGIN} element={<Login />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
+                <Route path={NAVIGATION.HOME} element={<Home />} />
                 <Route path={NAVIGATION.EMPLOYEES} element={<Employees />} />
                 <Route path={NAVIGATION.IMPORT_EMPLOYEES} element={<ImportEmployees />} />
                 <Route path={NAVIGATION.IMPORT_EMPLOYEES_HISTORY} element={<ImportEmployeesHistory />} />
@@ -32,7 +32,7 @@ function App() {
                 <Route path={NAVIGATION.JOBS} element={<Jobs />} />
               </Route>
             </Route>  
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to={NAVIGATION.HOME} />} />
           </Routes>
           <ToastContainer></ToastContainer> 
         </BrowserRouter>

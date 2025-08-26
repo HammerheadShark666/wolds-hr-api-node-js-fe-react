@@ -7,14 +7,21 @@ export const VALIDATION = {
   MAX_DATE_OF_BIRTH: new Date("2007-01-01")
 } as const
 
-
 export const NAVIGATION = {
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+  REFRESH_TOKEN: '/refresh-token',
+  AUTHENTICATE_ME: '/authentication/me',
+  HOME: '/',
   EMPLOYEES: '/employees',
   IMPORT_EMPLOYEES: '/import-employees',
   IMPORT_EMPLOYEES_HISTORY: '/import-employees-history',
   ADD_EMPLOYEE: '/add-employee',
   EDIT_EMPLOYEE: '/edit-employee',
   EMPLOYEE_DETAILS: '/employee-details',
+  EMPLOYEE_PHOTO_UPLOAD: '/employees/photo/upload/',
+  EMPLOYEE_SEARCH: '/employees/search',
   EMPLOYMENT: '/employment',
-  JOBS: '/jobs',
+  JOBS: '/jobs',  
+  DEPARTMENTS: '/departments'
 } as const;
