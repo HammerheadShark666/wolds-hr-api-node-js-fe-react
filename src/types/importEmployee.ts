@@ -16,7 +16,7 @@ export type PagedImportErrorEmployees = {
 
 export type ImportEmployeeError = {
   employee: string;
-  error: string;
+  error: string[];
 }
  
 export type ImportEmployeeHistory = {

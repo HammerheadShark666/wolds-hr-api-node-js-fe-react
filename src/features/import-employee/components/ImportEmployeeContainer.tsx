@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import ImportEmployeeToolBar from './ImportEmployeeToolBar';
 import { NAVIGATION } from '../../../helpers/constants';
 import { formatDateTime } from '../../../helpers/dateHelper';
+import styles from "../css/Import-employee.module.css";
+import globals from "../../../components/css/Toolbar.module.css"
 
 const ImportEmployeeContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,7 +30,7 @@ const ImportEmployeeContainer = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="">
       <ToastErrors error={error} onClear={() => dispatch(clearValidationError())} />
 
       {loading ? (
@@ -36,16 +38,50 @@ const ImportEmployeeContainer = () => {
       ) : (
         <div>
           <ImportEmployeeToolBar setShowEmployeePopUpForm={setShowEmployeePopUpForm} showEmployeePopUpForm={showEmployeePopUpForm} />
-          {importedEmployees?.id && (
-            <div className="mt-4">
-              <span>Imported employees at {importEmployeeHistoryDate}</span>
-              <div>
-                <p>Imported Employees Count: {importedEmployees.importedEmployeesCount}</p>
-                <p>Existing Employees Count: {importedEmployees.importedEmployeesExistingCount}</p>
-                <p>Failed Imports Count: {importedEmployees.importedEmployeesErrorsCount}</p>
+          
+          {!importedEmployees?.id && (
+            <div className={styles["import-employees-instructions"]}>
+              <span>To import employees, click the Import Employees button below and select a CSV file. The file should use commas (,) to separate values. Ensure the CSV includes the required columns: Name, Email, and Department. After uploading, the system will process the file and display a summary of imported, existing, and failed records.</span>
+              <div className={globals["toolbar-buttons"]}>     
+                <button type="button">Import Employees</button>
+                <input
+                    type="file"            
+                    style={{ display: 'none' }}
+                  />   
               </div>
-              <button onClick={handleClick}>Import Details</button>
             </div>
+           )}
+          
+          {importedEmployees?.id && (
+            // <div className={styles["import-employees-summary"]}>
+            //   <span>Imported employees at {importEmployeeHistoryDate}</span>
+            //   <div>
+            //     <p>Imported Employees Count: {importedEmployees.importedEmployeesCount}</p>
+            //     <p>Existing Employees Count: {importedEmployees.importedEmployeesExistingCount}</p>
+            //     <p>Failed Imports Count: {importedEmployees.importedEmployeesErrorsCount}</p>
+            //   </div>
+            //   <button onClick={handleClick}>Import Details</button>
+            // </div>
+            <div className={styles["import-employees-summary"]}>
+            <span className={styles.date}>
+              Imported employees at {importEmployeeHistoryDate}
+            </span>
+            <div className={styles.stats}>
+              <p>
+                <strong>Imported:</strong> {importedEmployees.importedEmployeesCount}
+              </p>
+              <p>
+                <strong>Existing:</strong> {importedEmployees.importedEmployeesExistingCount}
+              </p>
+              <p>
+                <strong>Failed:</strong> {importedEmployees.importedEmployeesErrorsCount}
+              </p>
+            </div>
+            <button className={styles.button} onClick={handleClick}>
+              Import Details
+            </button>
+          </div>
+
           )}
         </div>
       )}

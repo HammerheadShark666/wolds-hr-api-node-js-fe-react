@@ -13,6 +13,7 @@ import ImportEmployeesHistoryErrorTable from "./ImportEmployeesHistoryErrorTable
 import ImportEmployeesErrorPagination from "../../../components/ImportEmployeesErrorPagination";
 import styles from "../css/Import-employee-history.module.css";
 import { AppDispatch, RootState } from "../../../app/store";
+import { PAGE_SIZE } from "../../../helpers/constants";
 import {
   clearImportedEmployeesHistory,
   clearValidationError,
@@ -26,7 +27,6 @@ import {
   getImportedEmployeesErrorHistory,
   getImportedEmployeesExistingHistory,
 } from "../importEmployeeHistoryThunk";
-import { PAGE_SIZE } from "../../../helpers/constants";
 
 const ImportEmployeesHistoryContainer = () => {
   
@@ -37,6 +37,12 @@ const ImportEmployeesHistoryContainer = () => {
   const [importEmployeeHistoryId, setImportEmployeeHistoryId] = useState(initialId);
   const [activeTab, setActiveTab] = useState("imported-employees-history");
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
+
+  const TABS = { 
+    IMPORTED_EMPLOYEES_HISTORY: "imported-employees-history",
+    EXISTING_EMPLOYEES_HISTORY: "existing-employees-history",   
+    FAILED_EMPLOYEES_HISTORY: "failed-employees-history" 
+  } as const
 
   const {
     importedEmployeesHistory,
@@ -68,9 +74,9 @@ const ImportEmployeesHistoryContainer = () => {
         dispatch(getImportedEmployeesErrorHistory({ id, page: 1, pageSize: PAGE_SIZE })),
       ]);
 
-      setActiveTab("imported-employees-history");
+      setActiveTab(TABS.IMPORTED_EMPLOYEES_HISTORY);
     },
-    [dispatch]
+    [TABS.IMPORTED_EMPLOYEES_HISTORY, dispatch]
   );
 
   useEffect(() => {
@@ -93,7 +99,7 @@ const ImportEmployeesHistoryContainer = () => {
   };
 
   return (
-    <div className="p-4">
+    <div>
       <ToastErrors error={error} onClear={() => dispatch(clearValidationError())} />
 
       {loading ? (
@@ -106,13 +112,20 @@ const ImportEmployeesHistoryContainer = () => {
           />
 
           <Tabs className={styles["employee-import-history-tabs"]} value={activeTab} onValueChange={setActiveTab}>
+           
             <TabsList>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="imported-employees-history">Imported Employees ({importedEmployeesHistory.totalEmployees})</TabsTrigger>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="existing-employees-history">Existing Employees ({importedEmployeesExistingHistory.totalEmployees})</TabsTrigger>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="failed-employees-history">Failed Imports ({importedEmployeesErrorHistory.totalEmployees})</TabsTrigger>
+              <TabsTrigger className={`${styles.tab} ${activeTab === TABS.IMPORTED_EMPLOYEES_HISTORY ? styles.active : ""}`} value={TABS.IMPORTED_EMPLOYEES_HISTORY} >
+                Imported Employees ({importedEmployeesHistory.totalEmployees})
+              </TabsTrigger>
+              <TabsTrigger className={`${styles.tab} ${activeTab === TABS.EXISTING_EMPLOYEES_HISTORY ? styles.active : ""}`} value={TABS.EXISTING_EMPLOYEES_HISTORY} >
+                Existing Employees ({importedEmployeesExistingHistory.totalEmployees})
+              </TabsTrigger>
+              <TabsTrigger className={`${styles.tab} ${activeTab === TABS.FAILED_EMPLOYEES_HISTORY ? styles.active : ""}`} value={TABS.FAILED_EMPLOYEES_HISTORY}>
+                Failed Imports ({importedEmployeesErrorHistory.totalEmployees})
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="imported-employees-history">
+            <TabsContent value={TABS.IMPORTED_EMPLOYEES_HISTORY}>
               <EmployeesTable
                 rows={importedEmployeesHistory.employees}
                 showEmployeePopUpForm={showEmployeePopUpForm}
@@ -125,7 +138,7 @@ const ImportEmployeesHistoryContainer = () => {
               />
             </TabsContent>
 
-            <TabsContent value="existing-employees-history">
+            <TabsContent value={TABS.EXISTING_EMPLOYEES_HISTORY}>
               <ImportEmployeesHistoryExistingTable rows={importedEmployeesExistingHistory.employees} />
               <Pagination
                 pagedEmployees={importedEmployeesExistingHistory}
@@ -134,7 +147,7 @@ const ImportEmployeesHistoryContainer = () => {
               />
             </TabsContent>
 
-            <TabsContent value="failed-employees-history">
+            <TabsContent value={TABS.FAILED_EMPLOYEES_HISTORY}>
               <ImportEmployeesHistoryErrorTable rows={importedEmployeesErrorHistory.employees} />
               <ImportEmployeesErrorPagination
                 pagedEmployees={importedEmployeesErrorHistory}

@@ -11,3 +11,42 @@
   background-color: rgb(130, 130, 126);
   font-weight: bold;
 }
+
+
+.tabsList {
+  display: flex;
+  gap: 12px;
+  background: #f8fafc; /* light gray background */
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  justify-content: flex-start;
+  overflow-x: auto;
+}
+
+.tab {
+  flex: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #fff;
+  color: #334155; /* slate-700 */
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  margin-right: 2px;
+}
+
+.tab:hover {
+  background: #4d6277ff; /* slightly darker hover */
+  color: #fff; /* darker text on hover */
+}
+
+.active {
+  background: #2c3e50;
+  color: #fff;
+  border-color: #1e40af;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
