@@ -31,8 +31,8 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { name: "Home", iconname: "Home", link: "/" },
-  { name: "Employees", iconname: "Employees" , link: NAVIGATION.EMPLOYEES },
+  { name: "Home", iconname: "Home", link: NAVIGATION.HOME },
+  { name: "Employees", iconname: "Employees" , link: NAVIGATION.EMPLOYEES, },
   {
     name: "Employees Import",
     iconname: "EmployeesImport",
@@ -41,7 +41,7 @@ const menuItems: MenuItem[] = [
       { name: "History", iconname: "History", link: NAVIGATION.IMPORT_EMPLOYEES_HISTORY },
     ],
   },
-  { name: "Logout", iconname: "LogOut", link: "/" },
+  { name: "Logout", iconname: "LogOut", link: NAVIGATION.HOME },
 ];
 
 interface IProps {
@@ -68,7 +68,7 @@ const Sidebar: React.FC<IProps> = ({ isOpen, onClose }) => {
     dispatch(clearEmployees());
     dispatch(clearSelectedEmployee());
     
-    setTimeout(() => navigate('/login'), 100); 
+    setTimeout(() => navigate(NAVIGATION.LOGIN), 100); 
   };
 
   return (

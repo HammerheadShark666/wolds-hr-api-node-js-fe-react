@@ -3,6 +3,7 @@ import { Employee } from '../../types/employee';
 import axiosInstance from '../../api/axiosInstance'; 
 import { updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees, removeEmployeeFromEmployees } from './employeeSearchSlice'
 import { handleError } from '../../helpers/errorHandlingHelper';
+import { NAVIGATION } from '../../helpers/constants';
  
 type ApiEmployeePagingResponse = {
   employees: Employee[]
@@ -15,10 +16,10 @@ export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse,
 ('search/searchRecords', async ({ keyword, departmentId, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      let url = `/employees/search?keyword=${keyword}&departmentId=${departmentId}&page=${page}&pageSize=${pageSize}`;
+      let url = NAVIGATION.EMPLOYEE_SEARCH + `?keyword=${keyword}&departmentId=${departmentId}&page=${page}&pageSize=${pageSize}`;
 
       if(departmentId === '0')
-        url = `/employees/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
+        url = NAVIGATION.EMPLOYEE_SEARCH + `?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
 
       const response = await axiosInstance.get(url)
       return response.data;
@@ -33,7 +34,7 @@ export const addEmployee = createAsyncThunk<Employee, Employee, { rejectValue: a
   'employee/addEmployee',
   async (employee, { rejectWithValue, dispatch }) => {
     try {
-      const response = await axiosInstance.post('/employees', employee);
+      const response = await axiosInstance.post(NAVIGATION.EMPLOYEES, employee);
       dispatch(addEmployeeToEmployees(response.data));
       return response.data;
     } catch (error: any) {
@@ -47,7 +48,7 @@ export const updateEmployee = createAsyncThunk('employee/updateEmployee',
   
     try 
     {      
-      const response = await axiosInstance.put( '/employees/' + employee.id, employee);
+      const response = await axiosInstance.put( NAVIGATION.EMPLOYEES + '/' + employee.id, employee);
       dispatch(updateEmployeeInEmployees(response.data));
       return response.data; 
     } 
@@ -62,7 +63,7 @@ export const deleteEmployee = createAsyncThunk('employees/deleteEmployee',
   async (employeeId: number, { rejectWithValue, dispatch }) => {
 
     try {          
-      const response = await axiosInstance.delete('/employees/' + employeeId);  
+      const response = await axiosInstance.delete(NAVIGATION.EMPLOYEES + '/' + employeeId);  
       dispatch(removeEmployeeFromEmployees(employeeId));    
       return response.data; 
     } 
@@ -81,7 +82,7 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
       const formData = new FormData();
       formData.append('photoFile', file);
 
-      const response = await axiosInstance.post(`/employees/photo/upload/${id}`, formData); 
+      const response = await axiosInstance.post(NAVIGATION.EMPLOYEE_PHOTO_UPLOAD + id, formData); 
 
       dispatch(updateEmployeePhotoInEmployees(response.data));
       return response.data; 
