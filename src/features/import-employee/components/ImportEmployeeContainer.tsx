@@ -9,20 +9,15 @@ import ToastErrors from '../../../components/ErrorToasts';
 import { useNavigate } from 'react-router-dom';
 import ImportEmployeeToolBar from './ImportEmployeeToolBar';
 import { NAVIGATION } from '../../../helpers/constants';
+import { formatDateTime } from '../../../helpers/dateHelper';
 
 const ImportEmployeeContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
 
-  const { importedEmployees, loading, error } = useSelector((state: RootState) => state.importEmployee);
-
-  const formatDate = (dateString?: string) =>
-    dateString
-      ? new Date(dateString).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })
-      : '';
-
-  const importEmployeeHistoryDate = formatDate(importedEmployees?.date);
+  const { importedEmployees, loading, error } = useSelector((state: RootState) => state.importEmployee); 
+  const importEmployeeHistoryDate = formatDateTime(importedEmployees?.date);
 
   const handleClick = () => {
     if (!importedEmployees?.id) return;
@@ -40,11 +35,7 @@ const ImportEmployeeContainer = () => {
         <p>Loading...</p>
       ) : (
         <div>
-          <ImportEmployeeToolBar
-            setShowEmployeePopUpForm={setShowEmployeePopUpForm}
-            showEmployeePopUpForm={showEmployeePopUpForm}
-          />
-
+          <ImportEmployeeToolBar setShowEmployeePopUpForm={setShowEmployeePopUpForm} showEmployeePopUpForm={showEmployeePopUpForm} />
           {importedEmployees?.id && (
             <div className="mt-4">
               <span>Imported employees at {importEmployeeHistoryDate}</span>

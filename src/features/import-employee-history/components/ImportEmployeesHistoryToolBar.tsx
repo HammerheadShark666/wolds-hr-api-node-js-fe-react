@@ -3,6 +3,7 @@ import globals from "../../../components/css/Toolbar.module.css";
 import styles from "../css/Import-employee-history-toolbar.module.css";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
+import { formatDateTime } from '../../../helpers/dateHelper';
 
 type Props = {
   onSelectChange: (importEmployeeHistoryId: string, importEmployeeHistoryDate: string) => void;
@@ -14,15 +15,8 @@ const ImportEmployeesHistoryToolBar = ({ onSelectChange, importEmployeeHistoryId
     (state: RootState) => state.importEmployeeHistory.importEmployeeHistory
   );
  
-  const selectedItem = importEmployeeHistory.find(item => item.id === importEmployeeHistoryId);
- 
-  const formattedDate = selectedItem
-    ? new Date(selectedItem.date).toLocaleString('en-GB', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
-    : '';
-
+  const selectedImportEmployeeHistory = importEmployeeHistory.find(item => item.id === importEmployeeHistoryId);
+   
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = e.target.value;
     const selected = importEmployeeHistory.find(item => item.id === selectedId);
@@ -36,7 +30,7 @@ const ImportEmployeesHistoryToolBar = ({ onSelectChange, importEmployeeHistoryId
   return (
     <div className={globals["toolbar"]}>
       <div className={styles["toolbar-title"]}>
-        <span>Employees Import History {formattedDate}</span>
+        <span>Employees Import History {formatDateTime(selectedImportEmployeeHistory?.date)}</span>
       </div>
 
       <div className={globals["toolbar-buttons"]}>
@@ -51,10 +45,7 @@ const ImportEmployeesHistoryToolBar = ({ onSelectChange, importEmployeeHistoryId
             <option value="0">Select</option>
             {importEmployeeHistory.map(item => (
               <option key={item.id} value={item.id}>
-                {new Date(item.date).toLocaleString('en-GB', {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                })}
+                {formatDateTime(item.date)}
               </option>
             ))}
           </select>
