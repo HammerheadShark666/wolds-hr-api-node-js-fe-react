@@ -24,6 +24,7 @@ const ImportEmployeesHistoryExistingEmployeesTable = ({ rows }: IProps) => {
             <th></th>
             <th>Employee ID</th>
             <th>Name</th>
+            <th>Dob</th>
             <th>Department</th>
             <th>Contact</th> 
           </tr>
@@ -37,6 +38,7 @@ const ImportEmployeesHistoryExistingEmployeesTable = ({ rows }: IProps) => {
                 </td>
                 <td>{employee.id}</td>
                 <td>{employee.firstName} {employee.surname}</td> 
+                <td>{employee.dateOfBirth ? new Date(employee.dateOfBirth).toLocaleDateString('en-GB', { dateStyle: 'medium' }) : ''}</td>
                 <td>{employee.department ? employee.department.name : ""}</td>
                 <td><div><div className={styles["employee-phone-number"]}>{employee.phoneNumber}</div><div className={styles["employee-email"]}><a href={`mailto:${employee.email}`}>{employee.email}</a></div></div></td>
               </tr>   
