@@ -10,7 +10,7 @@ export const importEmployees = createAsyncThunk('employee/import',
       const formData = new FormData();
       formData.append('importFile', file); 
 
-      const response = await axiosInstance.post(`/employees/import`, formData);
+      const response = await axiosInstance.post(`/import/employees`, formData);
 
       return response.data; 
     } 

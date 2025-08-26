@@ -6,3 +6,15 @@ export const VALIDATION = {
   MIN_DATE_OF_BIRTH: new Date("1950-01-01"),
   MAX_DATE_OF_BIRTH: new Date("2007-01-01")
 } as const
+
+
+export const NAVIGATION = {
+  EMPLOYEES: '/employees',
+  IMPORT_EMPLOYEES: '/import-employees',
+  IMPORT_EMPLOYEES_HISTORY: '/import-employees-history',
+  ADD_EMPLOYEE: '/add-employee',
+  EDIT_EMPLOYEE: '/edit-employee',
+  EMPLOYEE_DETAILS: '/employee-details',
+  EMPLOYMENT: '/employment',
+  JOBS: '/jobs',
+} as const;

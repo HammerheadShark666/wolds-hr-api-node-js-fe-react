@@ -1,23 +1,21 @@
 import React from 'react';
 import globals from "../../../components/css/Toolbar.module.css";
-import styles from "../css/Employee-import-history-toolbar.module.css";
+import styles from "../css/Import-employee-history-toolbar.module.css";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
 type Props = {
-  onSelectChange: (employeeImportHistoryId: string, employeeImportHistoryDate: string) => void;
-  employeeImportHistoryId: string | null;
+  onSelectChange: (importEmployeeHistoryId: string, importEmployeeHistoryDate: string) => void;
+  importEmployeeHistoryId: string | null;
 };
 
-const EmployeesImportHistoryToolBar = ({ onSelectChange, employeeImportHistoryId }: Props) => {
+const ImportEmployeesHistoryToolBar = ({ onSelectChange, importEmployeeHistoryId }: Props) => {
   const importEmployeeHistory = useSelector(
-    (state: RootState) => state.importEmployeeHistory.employeeImportHistory
+    (state: RootState) => state.importEmployeeHistory.importEmployeeHistory
   );
  
-  const selectedItem = importEmployeeHistory.find(item => item.id === employeeImportHistoryId);
-
-  console.log('Selected Item:', selectedItem);
-
+  const selectedItem = importEmployeeHistory.find(item => item.id === importEmployeeHistoryId);
+ 
   const formattedDate = selectedItem
     ? new Date(selectedItem.date).toLocaleString('en-GB', {
         dateStyle: 'medium',
@@ -46,7 +44,7 @@ const EmployeesImportHistoryToolBar = ({ onSelectChange, employeeImportHistoryId
           <label htmlFor="import-history" className={globals["toolbar-label"]}>Import History</label>
           <select
             id="import-history"
-            value={employeeImportHistoryId || '0'}
+            value={importEmployeeHistoryId || '0'}
             onChange={handleChange}
             className={styles["select"]}
           >
@@ -66,4 +64,4 @@ const EmployeesImportHistoryToolBar = ({ onSelectChange, employeeImportHistoryId
   );
 };
 
-export default EmployeesImportHistoryToolBar;
+export default ImportEmployeesHistoryToolBar;

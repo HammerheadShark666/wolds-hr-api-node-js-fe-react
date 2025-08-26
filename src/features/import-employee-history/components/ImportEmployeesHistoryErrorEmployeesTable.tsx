@@ -1,13 +1,13 @@
 import {  useSelector } from "react-redux"; 
 import styles from "../../../components/css/EmployeesTable.module.css";
-import { RootState } from "../../../app/store";  
-import { EmployeeImportError } from "../../../types/importEmployee";
+import { RootState } from "../../../app/store";   
+import { ImportEmployeeError } from "../../../types/importEmployee";
 
 interface IProps {
-  rows: EmployeeImportError[];
+  rows: ImportEmployeeError[];
 };  
   
-const EmployeesImportHistoryErrorEmployeesTable = ({ rows }: IProps) => {
+const ImportEmployeesHistoryErrorEmployeesTable = ({ rows }: IProps) => {
  
   const { loading } = useSelector((state: RootState) => state.employeeList);
       
@@ -43,4 +43,4 @@ const EmployeesImportHistoryErrorEmployeesTable = ({ rows }: IProps) => {
   )
 };
   
-export default EmployeesImportHistoryErrorEmployeesTable;
+export default ImportEmployeesHistoryErrorEmployeesTable;

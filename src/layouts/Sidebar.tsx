@@ -6,6 +6,7 @@ import { useAppDispatch } from "../app/hooks";
 import { logout } from "../features/authentication/authenticationThunk";
 import { clearEmployees } from "../features/employee/employeeSearchSlice";
 import { clearSelectedEmployee } from "../features/employee/employeeSlice";
+import { NAVIGATION } from "../helpers/constants";
  
 const icons = {
   Home: <Home size={18} />,
@@ -31,13 +32,13 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { name: "Home", iconname: "Home", link: "/" },
-  { name: "Employees", iconname: "Employees" , link: "/employees" },
+  { name: "Employees", iconname: "Employees" , link: NAVIGATION.EMPLOYEES },
   {
     name: "Employees Import",
     iconname: "EmployeesImport",
     submenu: [
-      { name: "Import", iconname: "ImportIcon", link: "/employees-import" },
-      { name: "History", iconname: "History", link: "/employees-import-history" },
+      { name: "Import", iconname: "ImportIcon", link: NAVIGATION.IMPORT_EMPLOYEES },
+      { name: "History", iconname: "History", link: NAVIGATION.IMPORT_EMPLOYEES_HISTORY },
     ],
   },
   { name: "Logout", iconname: "LogOut", link: "/" },
