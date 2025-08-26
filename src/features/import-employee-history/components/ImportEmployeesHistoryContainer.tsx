@@ -34,7 +34,7 @@ const ImportEmployeesHistoryContainer = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const initialId = location.state?.id || searchParams.get("id") || "";
-  const [employeeImportHistoryId, setImportEmployeeHistoryId] = useState(initialId);
+  const [importEmployeeHistoryId, setImportEmployeeHistoryId] = useState(initialId);
   const [activeTab, setActiveTab] = useState("imported-employees-history");
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
 
@@ -46,9 +46,13 @@ const ImportEmployeesHistoryContainer = () => {
     error,
   } = useSelector((state: RootState) => state.importEmployeeHistory);
  
+  useEffect(() => { 
+    dispatch(clearImportedEmployeesHistory());
+  }, [dispatch, location.pathname]);
+
   useEffect(() => {
     document.getElementById("import-history")?.focus();
-    dispatch(getImportedEmployeeHistory());
+    dispatch(getImportedEmployeeHistory()); 
   }, [dispatch]);
  
   const loadImportHistory = useCallback(
@@ -70,8 +74,8 @@ const ImportEmployeesHistoryContainer = () => {
   );
 
   useEffect(() => {
-    if (employeeImportHistoryId) loadImportHistory(employeeImportHistoryId);
-  }, [employeeImportHistoryId, loadImportHistory]);
+    if (importEmployeeHistoryId) loadImportHistory(importEmployeeHistoryId);
+  }, [importEmployeeHistoryId, loadImportHistory]);
 
   const handleOnSelectChange = useCallback(
     async (id: string) => {
@@ -83,9 +87,9 @@ const ImportEmployeesHistoryContainer = () => {
   ); 
 
   const handlePageChange = (fetchFn: Function, setPageFn: Function) => async (page: number) => {
-    if (!employeeImportHistoryId) return;
+    if (!importEmployeeHistoryId) return;
     setPageFn(page);
-    await fetchFn({ id: employeeImportHistoryId, page, pageSize: PAGE_SIZE });
+    await dispatch(fetchFn({ id: importEmployeeHistoryId, page, pageSize: PAGE_SIZE }));
   };
 
   return (
@@ -98,7 +102,7 @@ const ImportEmployeesHistoryContainer = () => {
         <>
           <ImportEmployeesHistoryToolBar
             onSelectChange={handleOnSelectChange}
-            importEmployeeHistoryId={employeeImportHistoryId}
+            importEmployeeHistoryId={importEmployeeHistoryId}
           />
 
           <Tabs className={styles["employee-import-history-tabs"]} value={activeTab} onValueChange={setActiveTab}>

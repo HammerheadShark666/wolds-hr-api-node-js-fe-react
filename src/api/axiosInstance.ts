@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { logout, refreshToken } from '../features/authentication/authenticationThunk';
-import { NAVIGATION } from '../helpers/constants';
+import { logout, refreshToken } from '../features/authentication/authenticationThunk'; 
 
 const axiosInstance = axios.create({
   baseURL: window.env?.REACT_APP_API_URL,
@@ -10,7 +9,7 @@ const axiosInstance = axios.create({
 async function logoutOfApplication() {
   const { store } = await import('../app/store');
   store.dispatch(logout());
-  window.location.href = NAVIGATION.LOGIN;
+  window.location.href = '/login';
 }
   
 axiosInstance.interceptors.request.use(
@@ -28,7 +27,7 @@ axiosInstance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    const isRefreshRequest = originalRequest?.url?.includes(NAVIGATION.REFRESH_TOKEN);
+    const isRefreshRequest = originalRequest?.url?.includes('/refresh-token');
     const isUnauthorized = error.response?.status === 401 || error.response?.status === 403;
 
     if (isUnauthorized && !originalRequest._retry && !isRefreshRequest) {
