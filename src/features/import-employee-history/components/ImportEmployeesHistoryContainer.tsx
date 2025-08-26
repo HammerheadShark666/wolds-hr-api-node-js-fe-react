@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
-import EmployeesImportHistoryToolBar from "./ImportEmployeesHistoryToolBar";
+import ImportEmployeesHistoryToolBar from "./ImportEmployeesHistoryToolBar";
 import ToastErrors from "../../../components/ErrorToasts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import Pagination from "../../../components/EmployeePagination";
 import EmployeesTable from "../../../components/EmployeesTable";
-import EmployeesImportHistoryExistingEmployeesTable from "./ImportEmployeesHistoryExistingEmployeesTable";
-import EmployeesImportHistoryErrorEmployeesTable from "./ImportEmployeesHistoryErrorEmployeesTable";
-import EmployeeImportErrorPagination from "../../../components/EmployeeImportErrorPagination";
+import ImportEmployeesHistoryExistingTable from "./ImportEmployeesHistoryExistingTable";
+import ImportEmployeesHistoryErrorTable from "./ImportEmployeesHistoryErrorTable";
+import ImportEmployeesErrorPagination from "../../../components/ImportEmployeesErrorPagination";
 import styles from "../css/Import-employee-history.module.css";
 import { AppDispatch, RootState } from "../../../app/store";
 import {
@@ -23,7 +23,7 @@ import {
 import {
   getImportedEmployeeHistory,
   getImportedEmployeesHistory,
-  getImportedErrorEmployeesHistory,
+  getImportedEmployeesErrorHistory,
   getImportedEmployeesExistingHistory,
 } from "../importEmployeeHistoryThunk";
 import { PAGE_SIZE } from "../../../helpers/constants";
@@ -61,7 +61,7 @@ const ImportEmployeesHistoryContainer = () => {
       await Promise.all([
         dispatch(getImportedEmployeesHistory({ id, page: 1, pageSize: PAGE_SIZE })),
         dispatch(getImportedEmployeesExistingHistory({ id, page: 1, pageSize: PAGE_SIZE })),
-        dispatch(getImportedErrorEmployeesHistory({ id, page: 1, pageSize: PAGE_SIZE })),
+        dispatch(getImportedEmployeesErrorHistory({ id, page: 1, pageSize: PAGE_SIZE })),
       ]);
 
       setActiveTab("imported-employees-history");
@@ -96,7 +96,7 @@ const ImportEmployeesHistoryContainer = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <EmployeesImportHistoryToolBar
+          <ImportEmployeesHistoryToolBar
             onSelectChange={handleOnSelectChange}
             importEmployeeHistoryId={employeeImportHistoryId}
           />
@@ -122,7 +122,7 @@ const ImportEmployeesHistoryContainer = () => {
             </TabsContent>
 
             <TabsContent value="existing-employees-history">
-              <EmployeesImportHistoryExistingEmployeesTable rows={importedEmployeesExistingHistory.employees} />
+              <ImportEmployeesHistoryExistingTable rows={importedEmployeesExistingHistory.employees} />
               <Pagination
                 pagedEmployees={importedEmployeesExistingHistory}
                 onPageChange={handlePageChange(getImportedEmployeesExistingHistory, setImportedEmployeesExistingHistoryPage)}
@@ -131,10 +131,10 @@ const ImportEmployeesHistoryContainer = () => {
             </TabsContent>
 
             <TabsContent value="failed-employees-history">
-              <EmployeesImportHistoryErrorEmployeesTable rows={importedEmployeesErrorHistory.employees} />
-              <EmployeeImportErrorPagination
+              <ImportEmployeesHistoryErrorTable rows={importedEmployeesErrorHistory.employees} />
+              <ImportEmployeesErrorPagination
                 pagedEmployees={importedEmployeesErrorHistory}
-                onPageChange={handlePageChange(getImportedErrorEmployeesHistory, () => {})}
+                onPageChange={handlePageChange(getImportedEmployeesErrorHistory, () => {})}
                 title="Import Employees that Errored"
               />
             </TabsContent>

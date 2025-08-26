@@ -7,7 +7,7 @@ interface IProps {
   rows: ImportEmployeeError[];
 };  
   
-const ImportEmployeesHistoryErrorEmployeesTable = ({ rows }: IProps) => {
+const ImportEmployeesHistoryErrorTable = ({ rows }: IProps) => {
  
   const { loading } = useSelector((state: RootState) => state.employeeList);
       
@@ -43,4 +43,4 @@ const ImportEmployeesHistoryErrorEmployeesTable = ({ rows }: IProps) => {
   )
 };
   
-export default ImportEmployeesHistoryErrorEmployeesTable;
+export default ImportEmployeesHistoryErrorTable;
