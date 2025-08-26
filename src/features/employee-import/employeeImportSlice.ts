@@ -1,32 +1,21 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getImportedExistingEmployee, getImportedEmployee, importEmployees } from '../employee-import/employeeImportThunks';
-import { PagedEmployees } from '../../types/employeeImported';
-  
-interface EmployeeImportState { 
-  importedEmployees: PagedEmployees;
-  importedExistingEmployees: PagedEmployees; 
-  employeeImportId: number | null; 
-  employeesErrorImporting: string[];   
+import { createSlice } from '@reduxjs/toolkit';
+import { importEmployees } from '../employee-import/employeeImportThunks';
+import { ImportedEmployees } from '../../types/importEmployee';
+
+interface importedEmployeesState {
+  importedEmployees: ImportedEmployees;
   loading: boolean;
   error: string | null;
 } 
 
-const initialState: EmployeeImportState = {
- 
+const initialState: importedEmployeesState = { 
   importedEmployees: {
-    employees: [],
-    page: 1,
-    totalPages: 0,
-    totalEmployees: 0,
-  }, 
-  importedExistingEmployees: {
-    employees: [],
-    page: 1,
-    totalPages: 0,
-    totalEmployees: 0,
-  },  
-  employeeImportId: null, 
-  employeesErrorImporting: [],  
+    id: '',
+    date: '',
+    importedEmployeesCount: 0,
+    importedEmployeesExistingCount: 0,
+    importedEmployeesErrorsCount: 0,
+  },
   loading: false,
   error: null,
 };
@@ -34,13 +23,10 @@ const initialState: EmployeeImportState = {
 const employeeImportSlice = createSlice({
   name: 'employeeImportSlice',
   initialState,
-  reducers: {   
-    setImportedEmployeesPage(state, action: PayloadAction<number>) {
-      state.importedEmployees.page = action.payload;
+  reducers: {
+    clearImportedEmployees: (state) => {
+      state.importedEmployees =  initialState.importedEmployees;;
     },
-    setImportedExistingEmployeesPage(state, action: PayloadAction<number>) {
-      state.importedExistingEmployees.page = action.payload;
-    }, 
     clearValidationError: (state) => {
       state.error = null;
     }    
@@ -52,47 +38,21 @@ const employeeImportSlice = createSlice({
         state.error = null;
       })
       .addCase(importEmployees.fulfilled, (state, action) => { 
-        state.employeeImportId = action.payload.id; 
+        state.importedEmployees.id = action.payload.id; 
+        state.importedEmployees.date = action.payload.date;
+        state.importedEmployees.importedEmployeesCount = action.payload.importedEmployeesCount;
+        state.importedEmployees.importedEmployeesExistingCount = action.payload.importEmployeesExistingCount;   
+        state.importedEmployees.importedEmployeesErrorsCount = action.payload.importEmployeesErrorsCount;
         state.loading = false;
       })
       .addCase(importEmployees.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      })  
-      .addCase(getImportedEmployee.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getImportedEmployee.fulfilled, (state, action) => {
-        state.importedEmployees.employees = [...action.payload.employees];
-        state.importedEmployees.totalPages = action.payload.totalPages;
-        state.importedEmployees.totalEmployees = action.payload.totalEmployees;
-        state.importedEmployees.page =  action.payload.page;
-        state.loading = false;
-      })
-      .addCase(getImportedEmployee.rejected, (state, action) => {
-        state.loading = false;
-        state.error = 'Failed to get imported employees';
-      })  
-      .addCase(getImportedExistingEmployee.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getImportedExistingEmployee.fulfilled, (state, action) => {
-        state.importedExistingEmployees.employees = [...action.payload.employees];
-        state.importedExistingEmployees.totalPages = action.payload.totalPages;
-        state.importedExistingEmployees.totalEmployees = action.payload.totalEmployees;
-        state.importedExistingEmployees.page =  action.payload.page;
-        state.loading = false;
-      })
-      .addCase(getImportedExistingEmployee.rejected, (state, action) => {
-        state.loading = false;
-        state.error = 'Failed to get imported existing employees';
-      })   
+      })     
       .addDefaultCase((state) => { 
       });
   },
 });
 
-export const { setImportedEmployeesPage, setImportedExistingEmployeesPage, clearValidationError } = employeeImportSlice.actions
+export const { clearImportedEmployees, clearValidationError } = employeeImportSlice.actions 
 export default employeeImportSlice.reducer;
