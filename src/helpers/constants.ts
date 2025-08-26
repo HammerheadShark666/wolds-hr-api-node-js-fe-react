@@ -8,10 +8,7 @@ export const VALIDATION = {
 } as const
 
 export const NAVIGATION = {
-  LOGIN: '/login',
-  LOGOUT: '/logout',
-  REFRESH_TOKEN: '/refresh-token',
-  AUTHENTICATE_ME: '/authentication/me',
+  LOGIN: '/login', 
   HOME: '/',
   EMPLOYEES: '/employees',
   IMPORT_EMPLOYEES: '/import-employees',

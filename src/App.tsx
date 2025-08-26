@@ -21,7 +21,7 @@ function App() {
         <BrowserRouter>
           <ToastClearOnRouteChange />
           <Routes>          
-            <Route path={NAVIGATION.LOGIN} element={<Login />} />
+            <Route path='/login' element={<Login />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<Layout />}>
                 <Route path={NAVIGATION.HOME} element={<Home />} />
