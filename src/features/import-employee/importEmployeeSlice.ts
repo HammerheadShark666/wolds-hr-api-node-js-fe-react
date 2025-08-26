@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { importEmployees } from '../employee-import/employeeImportThunks';
+import { importEmployees } from './importEmployeeThunks';
 import { ImportedEmployees } from '../../types/importEmployee';
 
 interface importedEmployeesState {
@@ -20,8 +20,8 @@ const initialState: importedEmployeesState = {
   error: null,
 };
  
-const employeeImportSlice = createSlice({
-  name: 'employeeImportSlice',
+const importEmployeeSlice = createSlice({
+  name: 'importEmployeeSlice',
   initialState,
   reducers: {
     clearImportedEmployees: (state) => {
@@ -54,5 +54,5 @@ const employeeImportSlice = createSlice({
   },
 });
 
-export const { clearImportedEmployees, clearValidationError } = employeeImportSlice.actions 
-export default employeeImportSlice.reducer;
+export const { clearImportedEmployees, clearValidationError } = importEmployeeSlice.actions 
+export default importEmployeeSlice.reducer;

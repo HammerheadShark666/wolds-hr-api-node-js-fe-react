@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import globals from "../../../components/css/Toolbar.module.css"
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../app/store';
-import { importEmployees } from '../../employee-import/employeeImportThunks';
+import { importEmployees } from '../importEmployeeThunks';
 
 type Props = {
   setShowEmployeePopUpForm: React.Dispatch<React.SetStateAction<boolean>>;  
   showEmployeePopUpForm: boolean;  
 };
 
-const EmployeesImportToolBar = ({ setShowEmployeePopUpForm, showEmployeePopUpForm }: Props) => {
+const ImportEmployeeToolBar = ({ setShowEmployeePopUpForm, showEmployeePopUpForm }: Props) => {
  
   const dispatch = useDispatch<AppDispatch>(); 
   const fileInputRef = useRef<HTMLInputElement>(null); 
@@ -49,4 +49,4 @@ const EmployeesImportToolBar = ({ setShowEmployeePopUpForm, showEmployeePopUpFor
   );
 };
 
-export default EmployeesImportToolBar;
+export default ImportEmployeeToolBar;

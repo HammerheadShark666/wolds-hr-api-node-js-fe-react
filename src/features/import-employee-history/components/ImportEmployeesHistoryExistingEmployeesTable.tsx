@@ -8,7 +8,7 @@ interface IProps {
   rows: Employee[];
 };  
   
-const EmployeesImportHistoryExistingEmployeesTable = ({ rows }: IProps) => {
+const ImportEmployeesHistoryExistingEmployeesTable = ({ rows }: IProps) => {
  
   const { loading } = useSelector((state: RootState) => state.employeeList);
       
@@ -48,4 +48,4 @@ const EmployeesImportHistoryExistingEmployeesTable = ({ rows }: IProps) => {
   )
 };
   
-export default EmployeesImportHistoryExistingEmployeesTable;
+export default ImportEmployeesHistoryExistingEmployeesTable;

@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance"; 
-import { ApiEmployeePagingResponse, ApiErrorEmployeePagingResponse, ApiExistingEmployeePagingResponse, EmployeeImportHistory } from "../../types/importEmployee";
+import { ApiEmployeePagingResponse, ApiErrorEmployeePagingResponse, ApiExistingEmployeePagingResponse, ImportEmployeeHistory } from "../../types/importEmployee";
 import { handleError } from "../../helpers/errorHandlingHelper";
  
-export const getImportedEmployeeHistory = createAsyncThunk<EmployeeImportHistory[]>
-  ('get/employees/import/history', async () => {
+export const getImportedEmployeeHistory = createAsyncThunk<ImportEmployeeHistory[]>
+  ('get/import/employees/history', async () => {
     try     
     {
-      const response = await axiosInstance.get(`/employees/import/history`)
+      const response = await axiosInstance.get(`/import/employees/history`)
       return response.data;
     } 
     catch (error: any) 
@@ -20,7 +20,7 @@ export const getImportedEmployeesHistory = createAsyncThunk<ApiEmployeePagingRes
   ('get/imported/employees/history', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      const response = await axiosInstance.get(`/employees/import/history/imported?id=${id}&page=${page}&pageSize=${pageSize}`)
+      const response = await axiosInstance.get(`/import/employees/history/imported?id=${id}&page=${page}&pageSize=${pageSize}`)
       return response.data;
     } 
     catch (error: any) 
@@ -29,11 +29,11 @@ export const getImportedEmployeesHistory = createAsyncThunk<ApiEmployeePagingRes
     }
 });
 
-export const getImportedExistingEmployeesHistory = createAsyncThunk<ApiExistingEmployeePagingResponse, { id: string, page: number, pageSize: number }>
+export const getImportedEmployeesExistingHistory = createAsyncThunk<ApiExistingEmployeePagingResponse, { id: string, page: number, pageSize: number }>
   ('get/imported/existing-employees/history', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      const response = await axiosInstance.get(`/employees/import/history/existing?id=${id}&page=${page}&pageSize=${pageSize}`)
+      const response = await axiosInstance.get(`/import/employees/history/existing?id=${id}&page=${page}&pageSize=${pageSize}`)
       return response.data;
     } 
     catch (error: any) 
@@ -46,7 +46,7 @@ export const getImportedErrorEmployeesHistory = createAsyncThunk<ApiErrorEmploye
   ('get/imported/error-employees/history', async ({ id, page, pageSize } , { rejectWithValue }) => {
     try     
     {
-      const response = await axiosInstance.get(`/employees/import/history/error?id=${id}&page=${page}&pageSize=${pageSize}`)
+      const response = await axiosInstance.get(`/import/employees/history/error?id=${id}&page=${page}&pageSize=${pageSize}`)
       return response.data;
     } 
     catch (error: any) 

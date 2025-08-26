@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import styles from "../css/Employee-import.module.css";
+import styles from "../css/Import-employee-history.module.css";
 import { fetchDepartments } from "../../department/departmentThunks";
-import { useAppDispatch } from "../../../app/hooks";
-import EmployeesImportContainer from "../components/EmployeesImportContainer";
+import { useAppDispatch } from "../../../app/hooks"; 
+import ImportEmployeesHistoryContainer from "../components/ImportEmployeesHistoryContainer";
 
-const EmployeesImport: React.FC = () => {
+const ImportEmployeesHistory: React.FC = () => {
 
   const dispatch = useAppDispatch();
   
@@ -16,11 +16,11 @@ const EmployeesImport: React.FC = () => {
     <>   
       <div className={styles["employee-container"]}>
         <div className={styles["employee-list"]}>  
-          <EmployeesImportContainer></EmployeesImportContainer>
+            <ImportEmployeesHistoryContainer></ImportEmployeesHistoryContainer>
         </div>       
       </div>
     </>
   )     
 };
 
-export default EmployeesImport;
+export default ImportEmployeesHistory;

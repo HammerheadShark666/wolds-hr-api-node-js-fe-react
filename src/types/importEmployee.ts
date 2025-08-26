@@ -8,18 +8,18 @@ export type PagedEmployees = {
 }   
 
 export type PagedImportErrorEmployees = {
-  employees: EmployeeImportError[];
+  employees: ImportEmployeeError[];
   page: number;
   totalPages: number;
   totalEmployees: number;
 }  
 
-export type EmployeeImportError = {
+export type ImportEmployeeError = {
   employee: string;
   error: string;
 }
  
-export type EmployeeImportHistory = {
+export type ImportEmployeeHistory = {
   id:  string;
   date: string;
 }   
@@ -39,7 +39,7 @@ export type ApiExistingEmployeePagingResponse = {
 }
 
 export type ApiErrorEmployeePagingResponse = {
-  employees: EmployeeImportError[];
+  employees: ImportEmployeeError[];
   page: number;
   totalPages: number;
   totalEmployees: number;
