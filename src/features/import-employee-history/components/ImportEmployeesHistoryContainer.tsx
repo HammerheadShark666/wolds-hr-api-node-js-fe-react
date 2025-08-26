@@ -103,9 +103,9 @@ const ImportEmployeesHistoryContainer = () => {
 
           <Tabs className={styles["employee-import-history-tabs"]} value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="imported-employees-history">Imported Employees</TabsTrigger>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="existing-employees-history">Existing Employees</TabsTrigger>
-              <TabsTrigger className={styles["employee-import-history-tab"]} value="failed-employees-history">Failed Imports</TabsTrigger>
+              <TabsTrigger className={styles["employee-import-history-tab"]} value="imported-employees-history">Imported Employees ({importedEmployeesHistory.totalEmployees})</TabsTrigger>
+              <TabsTrigger className={styles["employee-import-history-tab"]} value="existing-employees-history">Existing Employees ({importedEmployeesExistingHistory.totalEmployees})</TabsTrigger>
+              <TabsTrigger className={styles["employee-import-history-tab"]} value="failed-employees-history">Failed Imports ({importedEmployeesErrorHistory.totalEmployees})</TabsTrigger>
             </TabsList>
 
             <TabsContent value="imported-employees-history">
