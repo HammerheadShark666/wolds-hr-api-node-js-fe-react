@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedErrorEmployeesHistory, getImportedExistingEmployeesHistory } from "./employeeImportHistoryThunk";
-import { EmployeeImportHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/employeeImported";
+import { EmployeeImportHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/importEmployee";
  
 interface EmployeeImportHistoryState { 
   employeeImportHistory: EmployeeImportHistory[];
   employeeImportHistoryId: string | null;
-  employeeImportHistoryDate: string | null;  
   importedEmployeesHistory: PagedEmployees;
   importedExistingEmployeesHistory: PagedEmployees;  
   importedEmployeesErrorHistory: PagedImportErrorEmployees;   
@@ -34,7 +33,6 @@ const initialState: EmployeeImportHistoryState = {
     totalEmployees: 0,
   },  
   employeeImportHistoryId: null,
-  employeeImportHistoryDate: null, 
   loading: false,
   error: null,
 };
@@ -42,10 +40,7 @@ const initialState: EmployeeImportHistoryState = {
 const employeeImportHistorySlice = createSlice({
   name: 'employeeImportHistorySlice',
   initialState,
-  reducers: {
-    setEmployeeImportHistoryDate(state, action: PayloadAction<string | null>) {
-      state.employeeImportHistoryDate = action.payload;
-    },
+  reducers: {  
     setImportedEmployeesHistoryPage(state, action: PayloadAction<number>) {
       state.importedEmployeesHistory.page = action.payload;
     },
@@ -78,13 +73,11 @@ const employeeImportHistorySlice = createSlice({
         totalEmployees: 0,
       }; 
       state.employeeImportHistoryId = null;
-      state.employeeImportHistoryDate = null; 
     },
   },
   extraReducers: (builder) => {
     builder
     .addCase(getImportedEmployeeHistory.pending, (state) => {
-      console.log('getImportedEmployeeHistory.pending reducer hit');
       state.loading = true;
       state.error = null;
     })
@@ -136,5 +129,248 @@ const employeeImportHistorySlice = createSlice({
   }
 });
 
-export const { setEmployeeImportId, setEmployeeImportHistoryDate, setImportedEmployeesHistoryPage, setImportedExistingEmployeesHistoryPage, clearImportedEmployeesHistory, clearValidationError } = employeeImportHistorySlice.actions
+export const { setEmployeeImportId, setImportedEmployeesHistoryPage, setImportedExistingEmployeesHistoryPage, clearImportedEmployeesHistory, clearValidationError } = employeeImportHistorySlice.actions
 export default employeeImportHistorySlice.reducer;
+ 
+
+
+
+
+
+
+
+
+
+
+
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedErrorEmployeesHistory, getImportedExistingEmployeesHistory } from "./employeeImportHistoryThunk";
+// import { EmployeeImportHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/importEmployee";
+ 
+// interface EmployeeImportHistoryState {
+//   employeeImportHistory: EmployeeImportHistory[];
+//   employeeImportHistoryId: string | null;
+//   importedEmployeesHistory: PagedEmployees;
+//   importedExistingEmployeesHistory: PagedEmployees;
+//   importedEmployeesErrorHistory: PagedImportErrorEmployees;
+//   loading: boolean;
+//   error: string | null;
+// }
+
+// const emptyPagedEmployees: PagedEmployees = {
+//   employees: [],
+//   page: 1,
+//   totalPages: 0,
+//   totalEmployees: 0,
+// };
+
+// const emptyPagedEmployeesErrors: PagedImportErrorEmployees = {
+//   employees: [],
+//   page: 1,
+//   totalPages: 0,
+//   totalEmployees: 0,
+// };
+
+// const initialState: EmployeeImportHistoryState = {
+//   employeeImportHistory: [],
+//   employeeImportHistoryId: null,
+//   importedEmployeesHistory: { ...emptyPagedEmployees },
+//   importedExistingEmployeesHistory: { ...emptyPagedEmployees },
+//   importedEmployeesErrorHistory: { ...emptyPagedEmployeesErrors },
+//   loading: false,
+//   error: null,
+// };
+
+// const employeeImportHistorySlice = createSlice({
+//   name: "employeeImportHistorySlice",
+//   initialState,
+//   reducers: {
+//     setImportedEmployeesHistoryPage(state, action: PayloadAction<number>) {
+//       state.importedEmployeesHistory.page = action.payload;
+//     },
+//     setImportedExistingEmployeesHistoryPage(state, action: PayloadAction<number>) {
+//       state.importedExistingEmployeesHistory.page = action.payload;
+//     },
+//     setEmployeeImportId(state, action: PayloadAction<string>) {
+//       state.employeeImportHistoryId = action.payload;
+//     },
+//     clearValidationError(state) {
+//       state.error = null;
+//     },
+//     clearImportedEmployeesHistory(state) {
+//       state.importedEmployeesHistory = { ...emptyPagedEmployees };
+//       state.importedExistingEmployeesHistory = { ...emptyPagedEmployees };
+//       state.importedEmployeesErrorHistory = { ...emptyPagedEmployeesErrors };
+//       state.employeeImportHistoryId = null;
+//     },
+//   },
+//   extraReducers: (builder) => {
+//     builder      
+//       .addMatcher(
+//         (action) => action.type.endsWith("/pending"),
+//         (state) => {
+//           state.loading = true;
+//           state.error = null;
+//         }
+//       )    
+//       .addCase(getImportedEmployeeHistory.fulfilled, (state, action: PayloadAction<EmployeeImportHistory[]>) => {
+//         state.employeeImportHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedEmployees>) => {
+//         state.importedEmployeesHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedExistingEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedEmployees>) => {
+//         state.importedExistingEmployeesHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedErrorEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedImportErrorEmployees>) => {
+//         state.importedEmployeesErrorHistory = action.payload;
+//         state.loading = false;
+//       }) 
+//       .addMatcher(
+//         (action) => action.type.endsWith("/rejected"),
+//         (state) => {
+//           state.loading = false;
+//           state.error = "Failed to fetch import history data";
+//         }
+//       );
+//   },
+// });
+
+// export const {
+//   setEmployeeImportId,
+//   setImportedEmployeesHistoryPage,
+//   setImportedExistingEmployeesHistoryPage,
+//   clearImportedEmployeesHistory,
+//   clearValidationError,
+// } = employeeImportHistorySlice.actions;
+
+// export default employeeImportHistorySlice.reducer;
+
+
+
+
+
+
+
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import {
+//   getImportedEmployeeHistory,
+//   getImportedEmployeesHistory,
+//   getImportedExistingEmployeesHistory,
+//   getImportedErrorEmployeesHistory,
+// } from "./employeeImportHistoryThunk";
+// import {
+//   EmployeeImportHistory,
+//   PagedEmployees,
+//   PagedImportErrorEmployees,
+// } from "../../types/importEmployee";
+
+// interface EmployeeImportHistoryState {
+//   employeeImportHistory: EmployeeImportHistory[];
+//   employeeImportHistoryId: string | null;
+//   importedEmployeesHistory: PagedEmployees;
+//   importedExistingEmployeesHistory: PagedEmployees;
+//   importedEmployeesErrorHistory: PagedImportErrorEmployees;
+//   loading: boolean;
+//   error: string | null;
+// }
+
+// const emptyPagedEmployees: PagedEmployees = {
+//   employees: [],
+//   page: 1,
+//   totalPages: 0,
+//   totalEmployees: 0,
+// };
+
+// const emptyPagedEmployeesErrors: PagedImportErrorEmployees = {
+//   employees: [],
+//   page: 1,
+//   totalPages: 0,
+//   totalEmployees: 0,
+// };
+
+// const initialState: EmployeeImportHistoryState = {
+//   employeeImportHistory: [],
+//   employeeImportHistoryId: null,
+//   importedEmployeesHistory: { ...emptyPagedEmployees },
+//   importedExistingEmployeesHistory: { ...emptyPagedEmployees },
+//   importedEmployeesErrorHistory: { ...emptyPagedEmployeesErrors },
+//   loading: false,
+//   error: null,
+// };
+
+// const employeeImportHistorySlice = createSlice({
+//   name: "employeeImportHistorySlice",
+//   initialState,
+//   reducers: {
+//     setImportedEmployeesHistoryPage(state, action: PayloadAction<number>) {
+//       state.importedEmployeesHistory.page = action.payload;
+//     },
+//     setImportedExistingEmployeesHistoryPage(state, action: PayloadAction<number>) {
+//       state.importedExistingEmployeesHistory.page = action.payload;
+//     },
+//     setEmployeeImportId(state, action: PayloadAction<string>) {
+//       state.employeeImportHistoryId = action.payload;
+//     },
+//     clearValidationError(state) {
+//       state.error = null;
+//     },
+//     clearImportedEmployeesHistory(state) {
+//       state.importedEmployeesHistory = { ...emptyPagedEmployees };
+//       state.importedExistingEmployeesHistory = { ...emptyPagedEmployees };
+//       state.importedEmployeesErrorHistory = { ...emptyPagedEmployeesErrors };
+//       state.employeeImportHistoryId = null;
+//     },
+//   },
+//   extraReducers: (builder) => {
+//     // Handle pending for any thunk
+//     builder.addMatcher(
+//       (action) => action.type.endsWith("/pending"),
+//       (state) => {
+//         state.loading = true;
+//         state.error = null;
+//       }
+//     );
+
+//     // Handle rejected for any thunk
+//     builder.addMatcher(
+//       (action) => action.type.endsWith("/rejected"),
+//       (state) => {
+//         state.loading = false;
+//         state.error = "Failed to fetch import history data";
+//       }
+//     );
+
+//     // Handle specific fulfilled thunks
+//     builder
+//       .addCase(getImportedEmployeeHistory.fulfilled, (state, action: PayloadAction<EmployeeImportHistory[]>) => {
+//         state.employeeImportHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedEmployees>) => {
+//         state.importedEmployeesHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedExistingEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedEmployees>) => {
+//         state.importedExistingEmployeesHistory = action.payload;
+//         state.loading = false;
+//       })
+//       .addCase(getImportedErrorEmployeesHistory.fulfilled, (state, action: PayloadAction<PagedImportErrorEmployees>) => {
+//         state.importedEmployeesErrorHistory = action.payload;
+//         state.loading = false;
+//       });
+//   },
+// });
+
+// export const {
+//   setEmployeeImportId,
+//   setImportedEmployeesHistoryPage,
+//   setImportedExistingEmployeesHistoryPage,
+//   clearImportedEmployeesHistory,
+//   clearValidationError,
+// } = employeeImportHistorySlice.actions;
+
+// export default employeeImportHistorySlice.reducer;

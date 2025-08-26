@@ -1,7 +1,7 @@
 import {  useSelector } from "react-redux"; 
 import styles from "../../../components/css/EmployeesTable.module.css";
 import { RootState } from "../../../app/store";  
-import { EmployeeImportError } from "../../../types/employeeImported";
+import { EmployeeImportError } from "../../../types/importEmployee";
 
 interface IProps {
   rows: EmployeeImportError[];

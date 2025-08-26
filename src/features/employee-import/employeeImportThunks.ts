@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../api/axiosInstance'; 
 import { handleError } from '../../helpers/errorHandlingHelper';
-import { ApiEmployeePagingResponse, ApiExistingEmployeePagingResponse } from '../../types/employeeImported';
  
 export const importEmployees = createAsyncThunk('employee/import',
   async ({ file }: { file: File }, { rejectWithValue, dispatch }) => {
@@ -11,10 +10,7 @@ export const importEmployees = createAsyncThunk('employee/import',
       const formData = new FormData();
       formData.append('importFile', file); 
 
-      const response = await axiosInstance.post(`/employees/import`, formData); 
-
-      //await dispatch(getImportedEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
-      //await dispatch(getImportedExistingEmployee({ id: response.data.id, page: 1, pageSize: 5 }));
+      const response = await axiosInstance.post(`/employees/import`, formData);
 
       return response.data; 
     } 
@@ -24,29 +20,3 @@ export const importEmployees = createAsyncThunk('employee/import',
     }
   }
 );
-
-export const getImportedEmployee = createAsyncThunk<ApiEmployeePagingResponse, { id: number, page: number, pageSize: number }>
-  ('get/imported/employees', async ({ id, page, pageSize } , { rejectWithValue }) => {
-    try     
-    {
-      const response = await axiosInstance.get(`/import/history/imported?id=${id}&page=${page}&pageSize=${pageSize}`)
-      return response.data;
-    } 
-    catch (error: any) 
-    { 
-      return handleError(error, rejectWithValue); 
-    }
-});
-
-export const getImportedExistingEmployee = createAsyncThunk<ApiExistingEmployeePagingResponse, { id: number, page: number, pageSize: number }>
-  ('get/imported/existing-employees', async ({ id, page, pageSize } , { rejectWithValue }) => {
-    try     
-    {
-      const response = await axiosInstance.get(`/import/history/existing?id=${id}&page=${page}&pageSize=${pageSize}`)
-      return response.data;
-    } 
-    catch (error: any) 
-    { 
-      return handleError(error, rejectWithValue); 
-    }
-});

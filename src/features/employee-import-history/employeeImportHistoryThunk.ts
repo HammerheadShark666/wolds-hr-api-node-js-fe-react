@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance"; 
-import { ApiEmployeePagingResponse, ApiErrorEmployeePagingResponse, ApiExistingEmployeePagingResponse, EmployeeImportHistory } from "../../types/employeeImported";
+import { ApiEmployeePagingResponse, ApiErrorEmployeePagingResponse, ApiExistingEmployeePagingResponse, EmployeeImportHistory } from "../../types/importEmployee";
 import { handleError } from "../../helpers/errorHandlingHelper";
  
 export const getImportedEmployeeHistory = createAsyncThunk<EmployeeImportHistory[]>
@@ -8,7 +8,7 @@ export const getImportedEmployeeHistory = createAsyncThunk<EmployeeImportHistory
     try     
     {
       const response = await axiosInstance.get(`/employees/import/history`)
-      return response.data.employeeImportHistory;
+      return response.data;
     } 
     catch (error: any) 
     { 

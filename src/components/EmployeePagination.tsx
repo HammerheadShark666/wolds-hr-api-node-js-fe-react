@@ -1,4 +1,4 @@
-import { PagedEmployees } from "../types/employeeImported";
+import { PagedEmployees } from "../types/importEmployee";
 import styles from "./css/Pagination.module.css"
 
 type Props = {
