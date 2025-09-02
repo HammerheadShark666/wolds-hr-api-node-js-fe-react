@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
 import { useAppDispatch } from "../../../app/hooks";  
-import { clearValidationErrors, setSelectedEmployee } from "../employeeSlice";
+import { clearValidationErrors, setSelectedEmployee, setValidationErrors } from "../employeeSlice";
 import { updateEmployeesState } from "../employeeSearchSlice";
 import { addEmployee, updateEmployee } from "../employeeThunks"; 
 import ToastErrors from "../../../components/ErrorToasts";
@@ -28,9 +28,9 @@ type EmployeeFormInput = {
   surname: string;
   firstName: string;
   dateOfBirth?: string;
-  phoneNumber?: string;
-  email?: string;
   hireDate?: string;
+  phoneNumber?: string;
+  email?: string;  
   departmentId?: string;
 };
 
@@ -38,6 +38,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
   const dispatch = useAppDispatch();
   const selectedEmployee = useSelector((state: RootState) => state.employee.selectedEmployee);
   const departments = useSelector((state: RootState) => state.department.departments);
+  const validationErrors = useSelector((state: RootState) => state.employee.validationErrors);
 
   const { handleSubmit, control, reset, formState: { errors } } = useForm<EmployeeFormInput>({
     resolver: zodResolver(employeeSchema) as any,
@@ -58,8 +59,8 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
     id: selectedEmployee?.id ?? 0,
     surname: trimString(data.surname) ?? "",
     firstName: trimString(data.firstName) ?? "",
-    dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
-    hireDate: data.hireDate ? new Date(data.hireDate) : null,
+    dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth).toISOString().split("T")[0] : null,
+    hireDate: data.hireDate ? new Date(data.hireDate).toISOString().split("T")[0] : null,
     phoneNumber: trimString(data.phoneNumber),
     email: trimString(data.email),
     departmentId: data.departmentId ?? null,
@@ -91,7 +92,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
         dispatch(updateEmployeesState());
       reset();
     } catch (error: any) {
-      toast.error(<ToastErrors error={error} onClear={() => dispatch(clearValidationErrors())} />);
+      dispatch(setValidationErrors(error)); 
     }
   };
 
@@ -117,19 +118,22 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
   }, [selectedEmployee, reset, dispatch]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <InputText name="surname" control={control} label="Surname*" error={errors.surname} />
-      <InputText name="firstName" control={control} label="First Name*" error={errors.firstName} />
-      <InputDate name="dateOfBirth" control={control} label="Date of Birth" error={errors.dateOfBirth} />
-      <InputEmail name="email" control={control} label="Email" error={errors.email} />
-      <InputText name="phoneNumber" control={control} label="Phone Number" error={errors.phoneNumber} />
-      <InputDate name="hireDate" control={control} label="Hire Date" error={errors.hireDate} />
-      <InputSelect name="departmentId" control={control} label="Department" error={errors.departmentId} items={departments} />
-      <div className={styles["button-row"]}>
-        <button type="button" onClick={onClose}>Close</button>
-        <button type="submit">{ selectedEmployee ? "Update Employee" : "Add Employee" }</button>
-      </div>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputText name="surname" control={control} label="Surname*" error={errors.surname} />
+        <InputText name="firstName" control={control} label="First Name*" error={errors.firstName} />
+        <InputDate name="dateOfBirth" control={control} label="Date of Birth" error={errors.dateOfBirth} />
+        <InputEmail name="email" control={control} label="Email" error={errors.email} />
+        <InputText name="phoneNumber" control={control} label="Phone Number" error={errors.phoneNumber} />
+        <InputDate name="hireDate" control={control} label="Hire Date" error={errors.hireDate} />
+        <InputSelect name="departmentId" control={control} label="Department" error={errors.departmentId} items={departments} />
+        <div className={styles["button-row"]}>
+          <button type="button" onClick={onClose}>Close</button>
+          <button type="submit">{ selectedEmployee ? "Update Employee" : "Add Employee" }</button>
+        </div>
+      </form>
+      <ToastErrors errors={validationErrors} onClear={() => dispatch(clearValidationErrors())} />
+    </>    
   );
 };
 

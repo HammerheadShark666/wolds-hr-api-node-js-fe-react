@@ -64,7 +64,7 @@ const EmployeesToolBar = ({ onSearch, setShowEmployeePopUpForm, showEmployeePopU
             onKeyDown={(e) => e.key === 'Enter' && handleSearchClick()} 
             placeholder="Search..."
           />
-          <button onClick={handleSearchClick}><Search /></button>
+          <button onClick={handleSearchClick}><Search width={20} height={20} /></button>
           <button type="button" onClick={handleAddEmployeeClick}>Add New Employee</button> 
         </div>
       </div>

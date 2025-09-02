@@ -6,6 +6,7 @@ interface importedEmployeesState {
   importedEmployees: ImportedEmployees;
   loading: boolean;
   error: string | null;
+  validationErrors: string[] | null;
 } 
 
 const initialState: importedEmployeesState = { 
@@ -18,6 +19,7 @@ const initialState: importedEmployeesState = {
   },
   loading: false,
   error: null,
+  validationErrors: null,
 };
  
 const importEmployeeSlice = createSlice({
@@ -48,6 +50,9 @@ const importEmployeeSlice = createSlice({
       .addCase(importEmployees.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+        if (JSON.stringify(state.validationErrors) !== JSON.stringify(action.payload)) {
+          state.validationErrors = (action.payload as string[]) || ['Failed to import employees'];
+        } 
       })     
       .addDefaultCase((state) => { 
       });

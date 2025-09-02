@@ -1,12 +1,11 @@
-
 export type Employee = 
 {
   id: number;  
   surname: string; 
   firstName: string;
-  dateOfBirth: Date | null;  
+  dateOfBirth: string | null | undefined;  
+  hireDate: string | null | undefined;
   email: string | null; 
-  hireDate: Date | null; 
   phoneNumber: string | null;
   photo: string;
   departmentId: string | null; 

@@ -34,16 +34,26 @@
   margin: 0;
 } 
 
-
-button {
-  background-color: rgba(167, 164, 243, 0.4);
-  border: none; 
-  border: 1px solid rgba(2, 2, 22, 0.4);
-  height: 35px;
-}
-
-button:hover {   
-  background-color: rgba(207, 179, 199, 0.97);
-  color: rgba(255, 255, 255, 0.97);
+button { 
+  flex: none; 
+  border-radius: 6px;
+  background: #2c3e50;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid transparent;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  margin-right: 2px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+ 
+button:hover {
+  background: #536679ff; 
+  cursor: pointer; 
+  color: #fff;
+  border-color: #1e40af;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
 }
