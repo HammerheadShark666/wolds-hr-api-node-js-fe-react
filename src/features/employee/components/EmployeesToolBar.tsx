@@ -61,11 +61,10 @@ const EmployeesToolBar = ({ onSearch, setShowEmployeePopUpForm, showEmployeePopU
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearchClick()}
-            className="border px-2 py-1 mr-2"
+            onKeyDown={(e) => e.key === 'Enter' && handleSearchClick()} 
             placeholder="Search..."
           />
-          <button onClick={handleSearchClick}><Search /></button>
+          <button onClick={handleSearchClick}><Search width={20} height={20} /></button>
           <button type="button" onClick={handleAddEmployeeClick}>Add New Employee</button> 
         </div>
       </div>

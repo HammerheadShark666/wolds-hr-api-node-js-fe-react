@@ -15,6 +15,7 @@ export const employeeSchema = z.object({
   email: emailSchema,
   hireDate: hireDateSchema,
   departmentId: departmentIdSchema
-});
+})
+.passthrough(); 
 
 export type EmployeeSchema = z.infer<typeof employeeSchema>;

@@ -32,7 +32,12 @@ const ImportEmployeesHistoryErrorTable = ({ rows }: IProps) => {
                   {employee.employee}
                 </td> 
                 <td>              
-                  {employee.error}
+                  { <ul>
+                    {employee.error.map((err, index) => (
+                      <li key={index}>{err}</li>
+                    ))
+                  }
+                  </ul>}
                 </td>             
               </tr>   
             );

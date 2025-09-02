@@ -25,6 +25,9 @@ const employeeSlice = createSlice({
     setSelectedEmployee: (state, action: PayloadAction<Employee | null>) => { 
       state.selectedEmployee = action.payload;
     },
+    setValidationErrors: (state, action: PayloadAction<string[] | null>) => {
+      state.validationErrors = action.payload;
+    },
     clearValidationErrors: (state) => {
       state.validationErrors = null;
     },
@@ -64,5 +67,5 @@ const employeeSlice = createSlice({
   }
 });
 
-export const { setSelectedEmployee, clearValidationErrors, clearSelectedEmployee } = employeeSlice.actions;
+export const { setSelectedEmployee, clearValidationErrors, clearSelectedEmployee, setValidationErrors } = employeeSlice.actions;
 export default employeeSlice.reducer;

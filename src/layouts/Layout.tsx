@@ -9,8 +9,7 @@ const Layout = () => {
   
   return (
     <div className={styles["layout"]}>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        {/* <Sidebar></Sidebar> */}
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} /> 
       <div className={styles["main-content"]}>
         <Header onHamburgerClick={() => setSidebarOpen(true)} />
         <div className={styles["content"]}>
