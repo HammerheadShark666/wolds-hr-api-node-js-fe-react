@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedEmployeesErrorHistory, getImportedEmployeesExistingHistory } from "./importEmployeeHistoryThunk";
-import { ImportEmployeeHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/importEmployee";
+import { getImportedEmployeeHistory,  getImportedEmployeesHistory, getImportedEmployeesErrorHistory, getImportedEmployeesExistingHistory, getImportedEmployeeHistoryLatest } from "./importEmployeeHistoryThunk";
+import { ImportedEmployees, ImportEmployeeHistory, PagedEmployees, PagedImportErrorEmployees } from "../../types/importEmployee";
  
 interface ImportEmployeeHistoryState { 
   importEmployeeHistory: ImportEmployeeHistory[];
   importEmployeeHistoryId: string | null;
   importedEmployeesHistory: PagedEmployees;
   importedEmployeesExistingHistory: PagedEmployees;  
-  importedEmployeesErrorHistory: PagedImportErrorEmployees;   
+  importedEmployeesErrorHistory: PagedImportErrorEmployees;  
+  importedEmployeesLatest: ImportedEmployees[]; 
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ImportEmployeeHistoryState = {
+  importedEmployeesLatest: [],
   importEmployeeHistory: [],
   importedEmployeesHistory: {
     employees: [],
@@ -126,6 +128,18 @@ const importEmployeeHistorySlice = createSlice({
       state.loading = false;
       state.error = 'Failed to get imported error employees';
     })   
+    .addCase(getImportedEmployeeHistoryLatest.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getImportedEmployeeHistoryLatest.fulfilled, (state, action) => {
+      state.importedEmployeesLatest = [...action.payload];
+      state.loading = false;
+    })
+    .addCase(getImportedEmployeeHistoryLatest.rejected, (state, action) => {
+      state.loading = false;
+      state.error = 'Failed to get latest imported employees';
+    })        
   }
 });
 
