@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import ImportEmployeesHistoryToolBar from "./ImportEmployeesHistoryToolBar";
 import ToastErrors from "../../../components/ErrorToasts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
@@ -37,6 +37,7 @@ const ImportEmployeesHistoryContainer = () => {
   const [importEmployeeHistoryId, setImportEmployeeHistoryId] = useState(initialId);
   const [activeTab, setActiveTab] = useState("imported-employees-history");
   const [showEmployeePopUpForm, setShowEmployeePopUpForm] = useState(false);
+  const { id } = useParams<{ id: string }>(); 
 
   const TABS = { 
     IMPORTED_EMPLOYEES_HISTORY: "imported-employees-history",
@@ -51,6 +52,13 @@ const ImportEmployeesHistoryContainer = () => {
     loading,
     error,
   } = useSelector((state: RootState) => state.importEmployeeHistory);
+  
+  useEffect(() => {
+  if (id) {
+    setImportEmployeeHistoryId(id);
+    dispatch(setImportEmployeeId(id));
+  }
+  }, [id, dispatch]);
  
   useEffect(() => { 
     dispatch(clearImportedEmployeesHistory());
@@ -79,7 +87,7 @@ const ImportEmployeesHistoryContainer = () => {
     [TABS.IMPORTED_EMPLOYEES_HISTORY, dispatch]
   );
 
-  useEffect(() => {
+  useEffect(() => {  
     if (importEmployeeHistoryId) loadImportHistory(importEmployeeHistoryId);
   }, [importEmployeeHistoryId, loadImportHistory]);
 
@@ -106,10 +114,7 @@ const ImportEmployeesHistoryContainer = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <ImportEmployeesHistoryToolBar
-            onSelectChange={handleOnSelectChange}
-            importEmployeeHistoryId={importEmployeeHistoryId}
-          />
+          <ImportEmployeesHistoryToolBar onSelectChange={handleOnSelectChange} importEmployeeHistoryId={importEmployeeHistoryId} />
 
           <Tabs className={styles["employee-import-history-tabs"]} value={activeTab} onValueChange={setActiveTab}>
            

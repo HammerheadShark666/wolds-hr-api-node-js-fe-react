@@ -28,6 +28,7 @@ function App() {
                 <Route path={NAVIGATION.EMPLOYEES} element={<Employees />} />
                 <Route path={NAVIGATION.IMPORT_EMPLOYEES} element={<ImportEmployees />} />
                 <Route path={NAVIGATION.IMPORT_EMPLOYEES_HISTORY} element={<ImportEmployeesHistory />} />
+                <Route path={`${NAVIGATION.IMPORT_EMPLOYEES_HISTORY}/:id`} element={<ImportEmployeesHistory />}  />
                 <Route path={NAVIGATION.EMPLOYMENT} element={<Employment />} />
                 <Route path={NAVIGATION.JOBS} element={<Jobs />} />
               </Route>
