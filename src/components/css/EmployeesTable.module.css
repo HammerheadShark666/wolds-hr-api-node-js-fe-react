@@ -30,7 +30,7 @@
 }
 
 .employee-list-actions-menu-button { 
-  background: none;
+  background-color: #393333ff;
   border: none;
   font-size: 20px;
   cursor: pointer;
